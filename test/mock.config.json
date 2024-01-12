@@ -1,0 +1,35 @@
+{
+  "platform": "feishu",
+  "name": "飞书-OpenAI",
+  "desc": "一个飞书OpenAI机器人",
+  "avatar": "https://s1-imfile.feishucdn.com/static-resource/v1/v2_b126c0fd-8f9d-49b0-9653-8c16caf0e28g",
+  "events": [
+    "im.message.message_read_v1",
+    "im.message.receive_v1"
+  ],
+  "encryptKey":"UwM6vYMYyqLbTmNatwNjcfNT2T53U02n",
+  "verificationToken":"eidEZjig7dbaQsgc9gADcwtny1YayigK",
+  "scopeIds": [
+    "21001",
+    "7",
+    "21003",
+    "21002",
+    "20001",
+    "20011",
+    "3001",
+    "20012",
+    "6005",
+    "20010",
+    "3000",
+    "20013",
+    "20014",
+    "20015",
+    "20008",
+    "1000",
+    "1006",
+    "1005",
+    "20009"
+  ],
+  "cardRequestUrl":"https://ai-feishu.forkway.cn/api/callback/lark/1/card",
+  "verificationUrl":"https://ai-feishu.forkway.cn/api/callback/lark/1/event"
+}

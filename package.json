@@ -36,8 +36,6 @@
     "fs-extra": "^11.1.1",
     "p-limit": "^4.0.0",
     "prompts": "^2.4.2",
-    "qr-scanner-wechat": "^0.1.2",
-    "sharp": "^0.32.4",
     "yargs": "^17.7.2"
   },
   "devDependencies": {

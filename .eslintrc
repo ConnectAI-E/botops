@@ -1,3 +1,8 @@
 {
-  "extends": "@antfu"
+  "extends": "@antfu",
+  "rules": {
+    // 其他规则...
+    "no-tabs": "off",
+    "no-console": "off"
+  }
 }

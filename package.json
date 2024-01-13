@@ -6,15 +6,15 @@
   "description": "",
   "author": "river <laolei@forkway.cn>",
   "license": "MIT",
-  "homepage": "https://github.com/ConnectAI-E/bot-builder-cli#readme",
+  "homepage": "https://github.com/ConnectAI-E/one-bot-cli#readme",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ConnectAI-E/bot-builder-cli.git"
+    "url": "git+https://github.com/ConnectAI-E/one-bot-cli.git"
   },
-  "bugs": "https://github.com/ConnectAI-E/bot-builder-cl/issues",
+  "bugs": "https://github.com/ConnectAI-E/one-bot-cli/issues",
   "keywords": [],
   "sideEffects": false,
-  "bin": "bot-builder-cli.mjs",
+  "bin": "one-bot-cli.mjs",
   "files": [
     "dist",
     "*.mjs"

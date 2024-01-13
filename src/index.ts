@@ -9,7 +9,9 @@ const args = yargs(hideBin(process.argv))
   .command(authCommand)
   .demandCommand(1, 'Please provide a command')
   .usage('$0 [command] [options]')
-  .example('$0 auth', 'View current authorization status')
+
+  .example('$0 info', 'View current authorization status')
+  .example('$0 auth', 'Interactive authorization bot')
   .example('$0 deploy', 'Interactive deployment bot')
   .help()
   .argv

@@ -1,6 +1,7 @@
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-expect-error
 import Conf from 'conf'
+import { Configuration } from 'onebot-feishu'
 import { name } from '../package.json'
 
 export interface FeishuConfig {
@@ -11,8 +12,8 @@ export interface FeishuConfig {
 
 export const fakeFeishuConfig: FeishuConfig = {
   nickname: 'test',
-  lark_oapi_csrf_token: 'gujsl9psQ/bErhHBJNAsiIVQmb2HVZrjAdvLnz8/CYQ=',
-  session: 'XN0YXJ0-0aamd8f0-907c-4e81-b59c-6b407c3840bb-WVuZA',
+  session: 'XN0YXJ0-8baub257-fb25-415c-9f6d-25be514ce31f-WVuZA',
+  lark_oapi_csrf_token: 'YU7dWtWax1ssfbFF128kZfOluXHU8jHXf5MF1PAYGiM=',
 }
 
 export class Config {
@@ -74,9 +75,14 @@ export class FeishuConfigManager {
     this.updateFeishuConfig({ nickname })
   }
 
-  isAuth() {
+  async isAuth() {
     const feishuConfig = this.getFeishuConfig()
     // todo 真实校验
-    return !!feishuConfig?.session
+    const aConfig = new Configuration({
+      session: feishuConfig.session as string,
+      lark_oapi_csrf_token: feishuConfig.lark_oapi_csrf_token as string,
+    })
+    const isAuthed = await aConfig.isAuthed()
+    return isAuthed
   }
 }

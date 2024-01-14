@@ -2,7 +2,8 @@
 import type { Argv } from 'yargs'
 import ora from 'ora'
 import select, { Separator } from '@inquirer/select'
-import { FeishuConfigManager, fakeFeishuConfig } from './config'
+import { getFeishuCookies } from 'onebot-feishu'
+import { FeishuConfigManager } from './config'
 
 export const command = 'auth'
 export const describe = 'View current authorization status or reauthorize for specific bot platform'
@@ -18,11 +19,20 @@ export function builder(yargs: Argv) {
       describe: 'Reauthorize DingTalk',
       type: 'boolean',
     })
+    .option('clear', {
+      describe: 'clear all auth',
+      type: 'boolean',
+      alias: 'c',
+    })
 }
 
 export async function handler(argv: any) {
+  if (argv.clear) {
+    resetAllAuth()
+    return
+  }
   if (argv.feishu) {
-    reauthorizeFeishu()
+    await reauthorizeFeishu()
   }
   else if (argv.dingtalk) {
     console.log('Reauthorizing DingTalk')
@@ -45,23 +55,23 @@ export async function handler(argv: any) {
       ],
     })
     if (answer === 'feishu')
-      reauthorizeFeishu()
+      await reauthorizeFeishu()
   }
 }
 
-function reauthorizeFeishu() {
+async function reauthorizeFeishu() {
   const spinner = ora('Reauthorizing Feishu').start()
   const config = FeishuConfigManager.getInstance()
-  config.setFeishuConfig(fakeFeishuConfig)
+  const newCookie = await getFeishuCookies()
+  // console.log(newCookie);
+  config.setFeishuConfig(newCookie)
   spinner.succeed('Reauthorized Feishu')
+  return newCookie
 }
 
-function checkFeishuAuth() {
-  const spinner = ora().start()
+async function resetAllAuth() {
+  const spinner = ora('Reset all auth').start()
   const config = FeishuConfigManager.getInstance()
-  spinner.info('checking auth status')
-  if (config.isAuth())
-    spinner.succeed('飞书已经授权')
-  else
-    spinner.fail('飞书未授权')
+  config.setFeishuConfig({})
+  spinner.succeed('Reset all platform auth status')
 }

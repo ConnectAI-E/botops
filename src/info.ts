@@ -19,13 +19,13 @@ export function builder(yargs: Argv) {
     })
 }
 
-export function handler(argv: any) {
+export async function handler(argv: any) {
   if (argv.feishu)
     reauthorizeFeishu()
   else if (argv.dingtalk)
     console.log('Reauthorizing DingTalk')
   else
-    checkFeishuAuth()
+    await checkFeishuAuth()
 }
 
 function reauthorizeFeishu() {
@@ -35,11 +35,12 @@ function reauthorizeFeishu() {
   spinner.succeed('Reauthorized Feishu')
 }
 
-function checkFeishuAuth() {
+async function checkFeishuAuth() {
   const spinner = ora().start()
   const config = FeishuConfigManager.getInstance()
   spinner.info('checking auth status')
-  if (config.isAuth())
+  const success = await config.isAuth()
+  if (success)
     spinner.succeed('飞书已经授权')
   else
     spinner.fail('飞书未授权')

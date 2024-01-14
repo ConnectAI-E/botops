@@ -7,8 +7,8 @@
     "im.message.message_read_v1",
     "im.message.receive_v1"
   ],
-  "encryptKey":"UwM6vYMYyqLbTmNatwNjcfNT2T53U02n",
-  "verificationToken":"eidEZjig7dbaQsgc9gADcwtny1YayigK",
+  "encryptKey": "UwM6vYMYyqLbTmNatwNjcfNT2T53U02n",
+  "verificationToken": "eidEZjig7dbaQsgc9gADcwtny1YayigK",
   "scopeIds": [
     "21001",
     "7",
@@ -30,6 +30,6 @@
     "1005",
     "20009"
   ],
-  "cardRequestUrl":"https://ai-feishu.forkway.cn/api/callback/lark/1/card",
-  "verificationUrl":"https://ai-feishu.forkway.cn/api/callback/lark/1/event"
+  "cardRequestUrl": "https://ai-feishu.forkway.cn/api/callback/lark/1/card",
+  "verificationUrl": "https://ai-feishu.forkway.cn/api/callback/lark/1/event"
 }

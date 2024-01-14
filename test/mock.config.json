@@ -1,35 +1,37 @@
 {
+  "name": "demoName",
+  "desc": "onebot test demo",
+  "avatar": "https://avatars.githubusercontent.com/u/145313435?s=200&v=4",
   "platform": "feishu",
-  "name": "飞书-OpenAI",
-  "desc": "一个飞书OpenAI机器人",
-  "avatar": "https://s1-imfile.feishucdn.com/static-resource/v1/v2_b126c0fd-8f9d-49b0-9653-8c16caf0e28g",
-  "events": [
-    "im.message.message_read_v1",
-    "im.message.receive_v1"
-  ],
-  "encryptKey": "UwM6vYMYyqLbTmNatwNjcfNT2T53U02n",
-  "verificationToken": "eidEZjig7dbaQsgc9gADcwtny1YayigK",
-  "scopeIds": [
-    "21001",
-    "7",
-    "21003",
-    "21002",
-    "20001",
-    "20011",
-    "3001",
-    "20012",
-    "6005",
-    "20010",
-    "3000",
-    "20013",
-    "20014",
-    "20015",
-    "20008",
-    "1000",
-    "1006",
-    "1005",
-    "20009"
-  ],
-  "cardRequestUrl": "https://ai-feishu.forkway.cn/api/callback/lark/1/card",
-  "verificationUrl": "https://ai-feishu.forkway.cn/api/callback/lark/1/event"
+  "feishuConfig": {
+    "events": [
+      "im.message.message_read_v1",
+      "im.message.receive_v1"
+    ],
+    "encryptKey": "e-fJKrqNbSz9NqSWL5",
+    "verificationToken": "v-Ohw8k6KwVynNmzXX",
+    "scopeIds": [
+      "21001",
+      "7",
+      "21003",
+      "21002",
+      "20001",
+      "20011",
+      "3001",
+      "20012",
+      "6005",
+      "20010",
+      "3000",
+      "20013",
+      "20014",
+      "20015",
+      "20008",
+      "1000",
+      "1006",
+      "1005",
+      "20009"
+    ],
+    "cardRequestUrl": "https://connect-ai-e.com/feishu/64af64fab84e8e000162ef66/card",
+    "verificationUrl": "https://connect-ai-e.com/feishu/64af64fab84e8e000162ef66/event"
+  }
 }

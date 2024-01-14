@@ -1,23 +1,30 @@
 import puppeteer from 'puppeteer-core'
 
 async function getCookies(loginUrl) {
+  let result
   const browser = await puppeteer.launch({ channel: 'chrome', headless: false }) // 设置 headless 为 false 以打开浏览器窗口
-  const page = await browser.newPage()
-  await page.goto(loginUrl)
-  // 这里需要一些机制来等待用户登录
-  await waitForUserLogin(page)
-  const cookies = await page.cookies()
+  try {
+    const page = await browser.newPage()
+    await page.goto(loginUrl)
+    // 这里需要一些机制来等待用户登录
+    await waitForUserLogin(page)
+    const cookies = await page.cookies()
 
-  const filterCookie = cookies.filter((item) => {
-    return item.name === 'lark_oapi_csrf_token' || item.name === 'session'
-  }).map(({ name, value }) => ({ name, value }))
-  const data = filterCookie.reduce((acc, { name, value }) => {
-    acc[name] = value
-    return acc
-  }, {})
-  await browser.close()
-  // 退出
-  return data
+    const filterCookie = cookies.filter((item) => {
+      return item.name === 'lark_oapi_csrf_token' || item.name === 'session'
+    }).map(({ name, value }) => ({ name, value }))
+    result = filterCookie.reduce((acc, { name, value }) => {
+      acc[name] = value
+      return acc
+    }, {})
+    await browser.close()
+  }
+  catch (e) {
+    await browser.close()
+    console.log(e)
+    return result
+  }
+  return result
 }
 
 async function checkLogin(page) {
@@ -53,4 +60,4 @@ export function getFeishuCookies() {
   return getCookies(loginUrl)
 }
 
-getFeishuCookies().then(cookies => console.log(cookies)).catch(err => console.error(err))
+// getFeishuCookies().then(cookies => console.log(cookies)).catch(err => console.error(err));

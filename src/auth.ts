@@ -3,10 +3,12 @@ import type { Argv } from 'yargs'
 import ora from 'ora'
 import select, { Separator } from '@inquirer/select'
 import { getFeishuCookies } from 'onebot-feishu'
+import confirm from '@inquirer/confirm'
 import { FeishuConfigManager } from './config'
+import { redIt } from './utils'
 
 export const command = 'auth'
-export const describe = 'View current authorization status or reauthorize for specific bot platform'
+export const describe = 'Request authorize for specific bot platform'
 
 export function builder(yargs: Argv) {
   return yargs
@@ -18,6 +20,7 @@ export function builder(yargs: Argv) {
     .option('dingtalk', {
       describe: 'Reauthorize DingTalk',
       type: 'boolean',
+      alias: 'd',
     })
     .option('clear', {
       describe: 'clear all auth',
@@ -35,7 +38,7 @@ export async function handler(argv: any) {
     await reauthorizeFeishu()
   }
   else if (argv.dingtalk) {
-    console.log('Reauthorizing DingTalk')
+    await reauthorizeDingTalk()
   }
   else {
     const answer = await select({
@@ -56,13 +59,18 @@ export async function handler(argv: any) {
     })
     if (answer === 'feishu')
       await reauthorizeFeishu()
+    if (answer === 'dingtalk')
+      await reauthorizeDingTalk()
   }
 }
 
+async function reauthorizeDingTalk() {
+  redIt('DingTalk is not supported yet')
+}
 async function reauthorizeFeishu() {
   const spinner = ora('Reauthorizing Feishu').start()
   const config = FeishuConfigManager.getInstance()
-  const newCookie = await getFeishuCookies()
+  const newCookie = await getFeishuCookies() as any
   // console.log(newCookie);
   config.setFeishuConfig(newCookie)
   spinner.succeed('Reauthorized Feishu')
@@ -70,8 +78,13 @@ async function reauthorizeFeishu() {
 }
 
 async function resetAllAuth() {
-  const spinner = ora('Reset all auth').start()
+  const answer = await confirm({ message: 'Are you sure to reset all platform auth' })
+  if (!answer) {
+    redIt('Reset all platform auth status canceled')
+    return
+  }
+  const spinner = ora('Start reset all platform auth').start()
   const config = FeishuConfigManager.getInstance()
   config.setFeishuConfig({})
-  spinner.succeed('Reset all platform auth status')
+  spinner.succeed('Reset successfully ')
 }

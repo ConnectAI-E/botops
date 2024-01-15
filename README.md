@@ -1,4 +1,4 @@
-<h1 align="center">📦Bot Builder Cli</h1>
+<h1 align="center">📦 OneBot</h1>
 
 <p align="center">A modern cli tool that deploy chatbot fast</p>
 

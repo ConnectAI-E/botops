@@ -16,37 +16,42 @@
 
 Using `npx` you can run the script without installing it first:
 
-    npx one-bot [command] [options]
+    npx botops [command] [options]
 
 #### Globally via `npm`
 
-    npm install --global one-bot
+    npm install --global botops
 
-This will install `one-bot` globally so that it may be run from the command line anywhere.
+This will install `botops` globally so that it may be run from the command line anywhere.
 
 #### Globally via Homebrew
 
-    brew install one-bot
+    brew install botops
     
 ## Usage
 
 ```
-$ one-bot [command] [options]
+$ botops [command] [options]
 
 Commands:
-  one-bot info    View current authorization status
-  one-bot auth    Request authorize for specific bot platform
-  one-bot deploy  Deploy bot to specific bot platform, support local file or url
+  botops info    View current authorization status
+  botops auth    Request authorize for specific bot platform
+  botops deploy  Deploy bot to specific bot platform, support local file or url
 
 Options:
-  --version  Show version number                                                                               [boolean]
-  --help     Show help                                                                                         [boolean]
+  --version  Show version number                                                           [boolean]
+  --help     Show help                                                                     [boolean]
 
 Examples:
-  one-bot info                                  Check current authorization status
-  one-bot auth --feishu                         Interactively log in and authorize with Feishu
-  one-bot deploy one-bot.json                   Deploy the bot to a specific platform using a local configuration file
-  one-bot deploy https://example.one-bot.json   Deploy the bot to a specific platform using a remote configuration URL
+  botops info                              Check current authorization status
+  botops auth --feishu                     Interactively log in and authorize with Feishu
+  botops deploy bot.json                   Deploy the bot to a specific platform using a local
+                                           configuration file
+  botops deploy https://example/bot.json   Deploy the bot to a specific platform using a remote
+                                           configuration URL
+
+👻 Explore our manual on https://github.com/ConnectAI-E/botops 
+
 
 ```
 

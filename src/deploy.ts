@@ -25,7 +25,7 @@ export function builder(yargs: Argv) {
 }
 
 export async function handler(argv: any) {
-  // 如果没有接收到参数，就询问是否从剪切板读取
+  // 如果没有接收到参数，默认读取同级目录下的 one-bot.json 文件
   if (argv._.length === 1) {
     const answer = await confirm({
       message: 'read the deployment configuration file from the clipboard ?',

@@ -1,5 +1,6 @@
 import Ajv from 'ajv'
 import fs from 'fs-extra'
+import fetch from 'node-fetch'
 
 export interface FeishuPlatformConfig {
   appId?: string
@@ -106,7 +107,14 @@ export class DeployConfig {
     return path.startsWith('http')
   }
 
-  async loadFile(path: string): Promise<string> {
+  async loadFileByPath(path: string) {
+    if (this.isUrl(path))
+      return this.remoteLoadFile(path)
+    else
+      return this.loadLocalFile(path)
+  }
+
+  async loadLocalFile(path: string): Promise<string> {
     if (!await this.isFileExist(path))
       throw new Error('the file is not exist')
 
@@ -118,17 +126,30 @@ export class DeployConfig {
       })
   }
 
+  // http://127.0.0.1:8080/mock.config.json
+  async remoteLoadFile(url: string): Promise<string> {
+    try {
+      const response = await fetch(url)
+      const jsonData = await response.text() as string
+      return jsonData
+    }
+    catch (error: any) {
+      console.error(`Error making request to ${url}: ${error.message}`)
+      throw error
+    }
+  }
+
   // 检验配置文件的schema是否符合
   async validateConfigByPath(path: string) {
     if (!this.isJson(path))
       return false
 
-    const config = await this.loadFile(path)
+    const config = await this.loadFileByPath(path)
     return this.validateConfig(JSON.parse(config))
   }
 
   async loadConfig(path: string) {
-    const config = await this.loadFile(path)
+    const config = await this.loadFileByPath(path)
     this.config = JSON.parse(config)
   }
 

@@ -88,6 +88,9 @@ export class FeishuConfigManager {
 
   async isAuth() {
     const feishuConfig = this.getFeishuConfig()
+    if (!feishuConfig)
+      return false
+
     const aConfig = new Configuration({
       session: feishuConfig.session as string,
       lark_oapi_csrf_token: feishuConfig.lark_oapi_csrf_token as string,
@@ -98,6 +101,9 @@ export class FeishuConfigManager {
 
   get appBuilder() {
     const feishuConfig = this.getFeishuConfig()
+    if (!feishuConfig)
+      throw new Error('no feishu config')
+
     const aConfig = new Configuration({
       session: feishuConfig.session as string,
       lark_oapi_csrf_token: feishuConfig.lark_oapi_csrf_token as string,

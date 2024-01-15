@@ -1,7 +1,7 @@
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-expect-error
 import Conf from 'conf'
-import { Configuration, OpenApp } from 'onebot-feishu'
+import { Configuration, OpenApp } from 'botops-feishu'
 import { name } from '../package.json'
 
 export interface FeishuConfig {

@@ -28,9 +28,12 @@ This will install `botops` globally so that it may be run from the command line 
 
     brew install botops
     
-## Usage
+## 🤯 Usage
 
 ```
+// login feishu platform
+$ botops auth
+
 $ botops [command] [options]
 
 Commands:

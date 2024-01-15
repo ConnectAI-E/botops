@@ -17,6 +17,9 @@ importers:
       ajv:
         specifier: ^8.12.0
         version: 8.12.0
+      botops-feishu:
+        specifier: workspace:^
+        version: link:packages/feishuapi
       clipboardy:
         specifier: ^4.0.0
         version: 4.0.0
@@ -35,9 +38,6 @@ importers:
       node-fetch:
         specifier: ^3.3.2
         version: 3.3.2
-      onebot-feishu:
-        specifier: workspace:^
-        version: link:packages/feishuapi
       ora:
         specifier: ^8.0.1
         version: 8.0.1

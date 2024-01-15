@@ -2,7 +2,7 @@
 import type { Argv } from 'yargs'
 import ora from 'ora'
 import select, { Separator } from '@inquirer/select'
-import { getFeishuCookies } from 'onebot-feishu'
+import { getFeishuCookies } from 'botops-feishu'
 import confirm from '@inquirer/confirm'
 import { FeishuConfigManager } from './config'
 import { redIt } from './utils'

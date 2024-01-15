@@ -6,12 +6,12 @@
   "description": "📦A modern cli tool that deploy chatbot fast,supporting Feishu, DingTalk, Discord, and Slack.",
   "author": "river <laolei@forkway.cn>",
   "license": "MIT",
-  "homepage": "https://github.com/ConnectAI-E/botops-cli#readme",
+  "homepage": "https://github.com/ConnectAI-E/botops#readme",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ConnectAI-E/botops-cli.git"
+    "url": "git+https://github.com/ConnectAI-E/botops.git"
   },
-  "bugs": "https://github.com/ConnectAI-E/botops-cli/issues",
+  "bugs": "https://github.com/ConnectAI-E/botops/issues",
   "keywords": [
     "feishu", "dingtalk", "discord", "chatbot", "slack", "cli", "botops"
   ],

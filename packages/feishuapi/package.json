@@ -6,12 +6,12 @@
   "description": "onebot feishu auto deploy module",
   "author": "River <laolei@forkway.c>",
   "license": "MIT",
-  "homepage": "https://github.com/ConnectAI-E/botops-cli",
+  "homepage": "https://github.com/ConnectAI-E/botops",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ConnectAI-E/botops-cli.git"
+    "url": "git+https://github.com/ConnectAI-E/botops.git"
   },
-  "bugs": "https://github.com/ConnectAI-E/botops-cli/issues",
+  "bugs": "https://github.com/ConnectAI-E/botops/issues",
   "keywords": [],
   "sideEffects": false,
   "exports": {

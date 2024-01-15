@@ -5,7 +5,7 @@ import * as infoCommand from './info'
 import * as deployCommand from './deploy'
 
 const args = yargs(hideBin(process.argv))
-  .scriptName('one-bot')
+  .scriptName('onebot')
   .command(infoCommand)
   .command(authCommand)
   .command(deployCommand)

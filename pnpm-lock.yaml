@@ -18,7 +18,7 @@ importers:
         specifier: ^8.12.0
         version: 8.12.0
       botops-feishu:
-        specifier: workspace:^
+        specifier: ^0.0.1
         version: link:packages/feishuapi
       clipboardy:
         specifier: ^4.0.0
@@ -114,6 +114,9 @@ importers:
 
   packages/feishuapi:
     dependencies:
+      FormData:
+        specifier: ^0.10.1
+        version: 0.10.1
       puppeteer-core:
         specifier: ^21.7.0
         version: 21.7.0
@@ -2303,6 +2306,26 @@ packages:
       pretty-format: 29.7.0
     dev: true
 
+  /File@0.10.2:
+    resolution: {integrity: sha512-gomQVTq/10wIR399uhGTWtYcYneTXbfe3p2RO/NR0MPrLkIyOaE9DCEPXihAm+72epLtXaplitwfJ/wkmj88dg==}
+    dependencies:
+      mime: 4.0.1
+    dev: false
+
+  /FileReader@0.10.2:
+    resolution: {integrity: sha512-O0K+5KRnDBFNogBPtV5hWjyJSQOoB2j3ZLbre1pBjCdE9CNpeIUPI8IX3G7eafIZ/HsllbGaIucEbt2qL+EX0g==}
+    dev: false
+
+  /FormData@0.10.1:
+    resolution: {integrity: sha512-Win+aXiahTJE/uwQWcq7BaLRdqOjNlDiWq2RkGvywkUluz8uejQrUPfmuXJJ6+4kaoH0r4S7Y+J6R/PGcNyp5w==}
+    dependencies:
+      File: 0.10.2
+      FileReader: 0.10.2
+      bufferjs: 3.0.1
+      forEachAsync: 3.0.0
+      remedial: 1.0.8
+    dev: false
+
   /acorn-jsx@5.3.2(acorn@8.11.3):
     resolution: {integrity: sha512-rq9s+JNhf0IChjtDXxllJ7g41oZk5SlXtp0LHwyA5cejwn7vKmKp4pPri6YEePv2PU65sAsegbXtIinmDFDXgQ==}
     peerDependencies:
@@ -2667,6 +2690,11 @@ packages:
     dependencies:
       base64-js: 1.5.1
       ieee754: 1.2.1
+
+  /bufferjs@3.0.1:
+    resolution: {integrity: sha512-qrCIGPcd9ODawCNyqR2o55zgaC/r7XHZ7oUh2s99uk+NVBS3SjIHigxS1S2KXpt8wsoQxAN55iPi8GIH8TGMRg==}
+    engines: {node: '>=0.2.0'}
+    dev: false
 
   /builtin-modules@3.3.0:
     resolution: {integrity: sha512-zhaCDicdLuWN5UbN5IMnFqNMhNfo919sH85y2/ea+5Yg9TsTkeZxpL+JLbp6cgYFS4sRLp3YV4S6yDuqVWHYOw==}
@@ -4883,6 +4911,11 @@ packages:
       is-callable: 1.2.7
     dev: true
 
+  /forEachAsync@3.0.0:
+    resolution: {integrity: sha512-a6qFIJll2VuqpWNRvJfgT7pGgobR89qnARafcCkGg6q1BCWrowc3WvRoYidxtFWRwaeUpk+5kiKZtdlRLwSufQ==}
+    deprecated: Please use 'foreachasync' instead. See https://www.npmjs.com/package/foreachasync
+    dev: false
+
   /foreground-child@3.1.1:
     resolution: {integrity: sha512-TMKDUnIte6bfb5nWv7V/caI169OHgvwjb7V4WkeUvbQQdjr5rWKqHFiKWb/fcOwB+CzBT+qbWjvj+DVwRskpIg==}
     engines: {node: '>=14'}
@@ -6191,6 +6224,12 @@ packages:
       mime-db: 1.52.0
     dev: true
 
+  /mime@4.0.1:
+    resolution: {integrity: sha512-5lZ5tyrIfliMXzFtkYyekWbtRXObT9OWa8IwQ5uxTBDHucNNwniRqo0yInflj+iYi5CBa6qxadGzGarDfuEOxA==}
+    engines: {node: '>=16'}
+    hasBin: true
+    dev: false
+
   /mimic-fn@1.2.0:
     resolution: {integrity: sha512-jf84uxzwiuiIVKiOLpfYk7N46TSy8ubTonmneY9vrpHNAnp0QBt2BxWV9dO3/j+BoVAb+a5G6YDPW3M5HOdMWQ==}
     engines: {node: '>=4'}
@@ -7416,6 +7455,10 @@ packages:
     dependencies:
       jsesc: 0.5.0
     dev: true
+
+  /remedial@1.0.8:
+    resolution: {integrity: sha512-/62tYiOe6DzS5BqVsNpH/nkGlX45C/Sp6V+NtiN6JQNS1Viay7cWkazmRkrQrdFj2eshDe96SIQNIoMxqhzBOg==}
+    dev: false
 
   /require-directory@2.1.1:
     resolution: {integrity: sha512-fGxEI7+wsG9xrvdjsrlmL22OMTTiHRwAMroiEeMgq8gzoLC/PQr7RsRDSTLUg/bZAZtF+TVIkHc6/4RIKrui+Q==}

@@ -3,7 +3,7 @@
   "type": "module",
   "version": "0.0.1",
   "packageManager": "pnpm@8.14.0",
-  "description": "onebot feishu auto deploy module",
+  "description": "botops feishu auto deploy module",
   "author": "River <laolei@forkway.c>",
   "license": "MIT",
   "homepage": "https://github.com/ConnectAI-E/botops",
@@ -12,12 +12,14 @@
     "url": "git+https://github.com/ConnectAI-E/botops.git"
   },
   "bugs": "https://github.com/ConnectAI-E/botops/issues",
-  "keywords": [],
+  "keywords": [
+    "feishu",
+    "cli",
+    "botops"
+  ],
   "sideEffects": false,
   "exports": {
     ".": {
-      "types": "./dist/index.d.ts",
-      "require": "./dist/index.cjs",
       "import": "./dist/index.mjs"
     }
   },
@@ -47,6 +49,7 @@
     "prepare": "simple-git-hooks"
   },
   "dependencies": {
+    "FormData": "^0.10.1",
     "puppeteer-core": "^21.7.0"
   },
   "devDependencies": {

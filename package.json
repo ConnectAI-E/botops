@@ -22,8 +22,15 @@
     "botops"
   ],
   "sideEffects": false,
+  "main": "dist/index.mjs",
   "bin": {
     "botops": "./botops-cli.mjs"
+  },
+  "pkg": {
+    "targets": [
+      "node16-macos-arm64"
+    ],
+    "outputPath": "package"
   },
   "files": [
     "dist",
@@ -44,7 +51,7 @@
     "@inquirer/confirm": "^2.0.15",
     "@inquirer/select": "^1.3.1",
     "ajv": "^8.12.0",
-    "botops-feishu": "workspace:^",
+    "botops-feishu": "^0.0.1",
     "clipboardy": "^4.0.0",
     "conf": "^12.0.0",
     "fast-glob": "^3.3.1",

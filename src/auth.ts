@@ -2,6 +2,8 @@
 import type { Argv } from 'yargs'
 import ora from 'ora'
 import select, { Separator } from '@inquirer/select'
+
+// @ts-expect-error This is an expected error because no type definition for this package
 import { getFeishuCookies } from 'botops-feishu'
 import confirm from '@inquirer/confirm'
 import { FeishuConfigManager } from './config'

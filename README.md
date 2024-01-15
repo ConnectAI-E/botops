@@ -24,10 +24,7 @@ Using `npx` you can run the script without installing it first:
 
 This will install `botops` globally so that it may be run from the command line anywhere.
 
-#### Globally via Homebrew
 
-    brew install botops
-    
 ## 🤯 Usage
 
 ```

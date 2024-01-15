@@ -1,7 +1,7 @@
 {
   "name": "botops",
   "type": "module",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "packageManager": "pnpm@8.6.0",
   "description": "📦A modern cli tool that deploy chatbot fast,supporting Feishu, DingTalk, Discord, and Slack.",
   "author": "river <laolei@forkway.cn>",

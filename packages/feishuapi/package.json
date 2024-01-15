@@ -1,7 +1,7 @@
 {
-  "name": "onebot-feishu",
+  "name": "one-bot-feishu",
   "type": "module",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "packageManager": "pnpm@8.14.0",
   "description": "onebot feishu auto deploy module",
   "author": "River <laolei@forkway.c>",

@@ -3,7 +3,7 @@
   "type": "module",
   "version": "0.0.1",
   "packageManager": "pnpm@8.6.0",
-  "description": "",
+  "description": "📦A modern cli tool that deploy chatbot fast,supporting Feishu, DingTalk, Discord, and Slack.",
   "author": "river <laolei@forkway.cn>",
   "license": "MIT",
   "homepage": "https://github.com/ConnectAI-E/one-bot-cli#readme",
@@ -12,9 +12,13 @@
     "url": "git+https://github.com/ConnectAI-E/one-bot-cli.git"
   },
   "bugs": "https://github.com/ConnectAI-E/one-bot-cli/issues",
-  "keywords": [],
+  "keywords": [
+    "feishu", "dingtalk", "discord", "chatbot", "slack", "cli", "one-bot"
+  ],
   "sideEffects": false,
-  "bin": "one-bot-cli.mjs",
+  "bin": {
+    "one-bot": "./one-bot-cli.mjs"
+  },
   "files": [
     "dist",
     "*.mjs"

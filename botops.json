@@ -4,7 +4,7 @@
   "avatar": "https://avatars.githubusercontent.com/u/145313435?s=200&v=4",
   "platform": "feishu",
   "feishuConfig": {
-    "appId": "cli_a52fa4f61af4100d",
+    "appId": "cli_a52fa4f22d",
     "events": [
       "im.message.message_read_v1",
       "im.message.receive_v1"

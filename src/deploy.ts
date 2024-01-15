@@ -3,7 +3,7 @@ import type { Argv } from 'yargs'
 import clipboard from 'clipboardy'
 import Listr from 'listr'
 import ora from 'ora'
-import { changeArgvToString, greenIt } from './utils'
+import { changeArgvToString, greenIt, redIt } from './utils'
 import { DeployConfig } from './manifest'
 import { FeishuConfigManager } from './config'
 
@@ -58,7 +58,14 @@ export async function handler(argv: any) {
   }
   else {
     appId = aDeployConfig.appId as string
-    await appBuilder.versionManager.clearUnPublishedVersion(appId)
+    try {
+      await appBuilder.versionManager.clearUnPublishedVersion(appId)
+    }
+    catch (e) {
+      redIt(`没有对飞书机器人 ${aDeployConfig.botName}(${appId}) 的操作权限`)
+      process.exit(1)
+    }
+
     await appBuilder.changeAppInfo(appId, aDeployConfig.botBaseInfo)
     greenIt(`即将为飞书机器人 ${aDeployConfig.botName}(${appId}) 部署新版本`)
   }

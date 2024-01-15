@@ -8,7 +8,7 @@
 
 - Compatible with various ChatBot platforms: Feishu, WeChat, Slack, Dingtalk, Telegram, Discord, and more.
 - Hassle-free setup — simply use `npx onebot` to get started.
-- Default safety ensured — receive updates within your authorized version range.## Deploy
+- Default safety ensured — receive updates within your authorized version range.
 
 ## Development
 ```bash

@@ -1,8 +1,8 @@
-<h1 align="center">📦 OneBot</h1>
+<h1 align="center">📦 BotOps</h1>
 
-<p align="center">A modern cli tool that deploy chatbot fast</p>
+<p align="center">A modern cli tool that deploy ChatBot fast</p>
 
-<pre align="center">npx <b>onebot</b></pre>
+<pre align="center">npx <b>botops</b></pre>
 
 ## Features
 
@@ -18,7 +18,7 @@ pnpm start
 
 ## Configuration
 
-See `onebot --help` for more details
+See `botops --help` for more details
 
 ## License
 

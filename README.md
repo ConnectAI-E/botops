@@ -7,7 +7,7 @@
 ## Features
 
 - Compatible with various ChatBot platforms: Feishu, WeChat, Slack, Dingtalk, Telegram, Discord, and more.
-- Hassle-free setup — simply use `npx one-bot` to get started.
+- Hassle-free setup — simply use `npx botops` to get started.
 - Default safety ensured — receive updates within your authorized version range.
 
 ## Development

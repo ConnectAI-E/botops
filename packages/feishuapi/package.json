@@ -1,17 +1,17 @@
 {
-  "name": "one-bot-feishu",
+  "name": "botops-feishu",
   "type": "module",
   "version": "0.0.1",
   "packageManager": "pnpm@8.14.0",
   "description": "onebot feishu auto deploy module",
   "author": "River <laolei@forkway.c>",
   "license": "MIT",
-  "homepage": "https://github.com/ConnectAI-E/one-bot-cli",
+  "homepage": "https://github.com/ConnectAI-E/botops-cli",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ConnectAI-E/one-bot-cli.git"
+    "url": "git+https://github.com/ConnectAI-E/botops-cli.git"
   },
-  "bugs": "https://github.com/ConnectAI-E/one-bot-cli/issues",
+  "bugs": "https://github.com/ConnectAI-E/botops-cli/issues",
   "keywords": [],
   "sideEffects": false,
   "exports": {

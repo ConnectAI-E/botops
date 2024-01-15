@@ -86,6 +86,13 @@ describe('app', async () => {
     console.log(JSON.stringify(result))
     expect(result).not.toBeUndefined()
   })
+
+  // 检测有没有同名的机器人,如果有返回appId
+  it('should check app name', async () => {
+    const result = await app.checkAppName('a 222')
+    console.log(JSON.stringify(result))
+    expect(result).not.toBeUndefined()
+  })
 })
 
 describe('scoop', async () => {

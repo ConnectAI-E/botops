@@ -171,6 +171,15 @@ export class OpenApp {
   async getEventInfo(appId: string) {
     return this.eventManager.getEventInfo(appId)
   }
+
+  // 检测有没有同名的机器人,如果有返回appId
+  async checkAppName(aBot: string) {
+    const appList = await this.getAppList()
+    const bot = appList.find(app => app.name === aBot)
+    if (bot)
+      return bot.appID
+    return ''
+  }
 }
 
 class BotManager {

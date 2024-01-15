@@ -3,6 +3,7 @@ import type { Argv } from 'yargs'
 import clipboard from 'clipboardy'
 import Listr from 'listr'
 import ora from 'ora'
+import confirm from '@inquirer/confirm'
 import { changeArgvToString, greenIt, redIt } from './utils'
 import { DeployConfig } from './manifest'
 import { FeishuConfigManager } from './config'
@@ -52,9 +53,19 @@ export async function handler(argv: any) {
   await appBuilder.init()
 
   let appId = ''
+
   if (aDeployConfig.ifFirstDeploy) {
+    // 检测是否有重名的机器人
+    const oldAppId = await appBuilder.checkAppName(aDeployConfig.botName)
+    if (oldAppId) {
+      const answer = await confirm({ message: 'Detected a bot with the same name, do you want to overwrite it?' })
+      if (answer) {
+        greenIt(`即将覆盖飞书机器人 ${aDeployConfig.botName}(${oldAppId})`)
+        appId = oldAppId
+      }
+    }
     appId = await appBuilder.newApp(aDeployConfig.botBaseInfo)
-    greenIt(`飞书机器人 ${aDeployConfig.botName}(${appId}) 初始化成功`)
+    greenIt(`新的飞书机器人 ${aDeployConfig.botName}(${appId}) 初始化成功`)
   }
   else {
     appId = aDeployConfig.appId as string

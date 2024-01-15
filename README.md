@@ -6,12 +6,11 @@
 
 ## Features
 
-- Support Many ChatBot Platform: Feishu, Wechat, Slack, Dingtalk, Telegram, Discord, etc.
-- No installation required — `npx onebot` to start
-- Safe by default — updates in the version range you are allowed
+- Compatible with various ChatBot platforms: Feishu, WeChat, Slack, Dingtalk, Telegram, Discord, and more.
+- Hassle-free setup — simply use `npx onebot` to get started.
+- Default safety ensured — receive updates within your authorized version range.## Deploy
 
-## Deploy
-
+## Development
 ```bash
 pnpm install
 pnpm start

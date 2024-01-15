@@ -135,6 +135,8 @@ export class OpenApp {
   }
 
   async changeAppInfo(appId: string, appInfo: AppInfo) {
+    if (appInfo.avatar)
+      appInfo.avatar = await this.uploadAppAvatar(appInfo.avatar)
     const formatBody = await this.formatNewAppBody(appInfo)
     const result = await this.cfg.aPostRequest(`developers/v1/base_info/${appId}`, formatBody)
     return result.data

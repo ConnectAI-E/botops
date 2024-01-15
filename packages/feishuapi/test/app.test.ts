@@ -5,8 +5,8 @@ import type { AppInfo, EventUrlInfo } from '../src/app'
 import { FeishuAppPlus, OpenApp } from '../src/app'
 
 const testConfig: FeishuLoginCookies = {
-  lark_oapi_csrf_token: '6YRvL8A3JuqniYsZyAf6c//eMBfh3jaDMF6Vc1Sr870=',
-  session: 'XN0YXJ0-39ej5d23-864f-4461-aad1-b0eacaf2cc99-WVuZA',
+  lark_oapi_csrf_token: 'mMH47ijv/C0IKvUblsY3cA9QVjskDfEvCmYyXoaqTIU=',
+  session: 'XN0YXJ0-e29q5c84-aef0-44db-9b99-24282033dd87-WVuZA',
 }
 
 const config = new Configuration(testConfig)
@@ -50,12 +50,14 @@ describe('app', async () => {
     expect(result).not.toBeUndefined()
   })
   it('should change app info', async () => {
-    const result = await app.changeAppInfo('cli_a42ef85d81bad00e', {
+    const result = await app.changeAppInfo('cli_a52fa4f61af4100d', {
       name: 'a botName',
+      avatar: 'https://s1-imfile.feishucdn.com/static-resource/v1/v2_2514eb9a-de2f-41cd-89b4-274940456f3g',
     })
     console.log(JSON.stringify(result))
     expect(result).not.toBeUndefined()
   })
+
   it('should delete app', async () => {
     const result = await app.deleteApp('cli_a5281a3b6838500b')
     console.log(JSON.stringify(result))

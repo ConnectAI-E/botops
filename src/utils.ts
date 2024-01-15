@@ -18,3 +18,20 @@ async function parseFile(path: string): Promise<string> {
   )
   return result
 }
+
+export function changeArgvToString(argv: any): string {
+  switch (typeof argv) {
+    case 'string':
+    case 'number':
+      return argv.toString()
+    case 'object':
+      return JSON.stringify(argv)
+    case 'undefined':
+      return ''
+    default:
+      if (Array.isArray(argv))
+        return argv.join(' ')
+
+      return String(argv)
+  }
+}

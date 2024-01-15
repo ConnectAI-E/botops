@@ -82,7 +82,7 @@ export class DeployConfig {
           required: ['events', 'encryptKey', 'verificationToken', 'scopeIds', 'cardRequestUrl', 'verificationUrl'],
         },
       },
-      required: ['name', 'desc', 'avatar', 'platform', 'feishuConfig'],
+      required: ['name', 'platform'],
     }
   }
 
@@ -116,7 +116,7 @@ export class DeployConfig {
 
   async loadLocalFile(path: string): Promise<string> {
     if (!await this.isFileExist(path))
-      throw new Error('the file is not exist')
+      return ''
 
     return fs.readFile(path, 'utf-8')
       .catch((error) => {
@@ -145,6 +145,8 @@ export class DeployConfig {
       return false
 
     const config = await this.loadFileByPath(path)
+    if (!config)
+      return false
     return this.validateConfig(JSON.parse(config))
   }
 
@@ -185,7 +187,7 @@ export class DeployConfig {
   }
 
   get ifFirstDeploy() {
-    return this.config.feishuConfig.appId === undefined
+    return !this.appId
   }
 
   get events() {
@@ -205,5 +207,9 @@ export class DeployConfig {
 
   get cardRequestUrl() {
     return this.config.feishuConfig.cardRequestUrl
+  }
+
+  get appId() {
+    return this.config.feishuConfig.appId
   }
 }

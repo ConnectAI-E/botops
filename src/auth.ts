@@ -67,14 +67,17 @@ export async function handler(argv: any) {
 async function reauthorizeDingTalk() {
   redIt('DingTalk is not supported yet')
 }
+
 async function reauthorizeFeishu() {
   const spinner = ora('Reauthorizing Feishu').start()
   const config = FeishuConfigManager.getInstance()
   const newCookie = await getFeishuCookies() as any
-  // console.log(newCookie);
   config.setFeishuConfig(newCookie)
-  spinner.succeed('Reauthorized Feishu')
-  return newCookie
+  await config.updateNickname()
+  spinner.succeed(`🚀Successfully reauthorized Feishu! Welcome, ${config.nickname}!`)
+  spinner.stop()
+  process.exit(0)
+  // return newCookie;
 }
 
 async function resetAllAuth() {

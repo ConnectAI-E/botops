@@ -71,13 +71,23 @@ export class FeishuConfigManager {
     this.setFeishuConfig({ ...feishuConfig, ...config })
   }
 
-  updateNickname(nickname: string) {
+  async updateNickname() {
+    const feishuConfig = this.getFeishuConfig()
+    const aConfig = new Configuration({
+      session: feishuConfig.session as string,
+      lark_oapi_csrf_token: feishuConfig.lark_oapi_csrf_token as string,
+    })
+    const nickname = await aConfig.getNickname() as string
     this.updateFeishuConfig({ nickname })
+  }
+
+  get nickname() {
+    const feishuConfig = this.getFeishuConfig()
+    return feishuConfig.nickname
   }
 
   async isAuth() {
     const feishuConfig = this.getFeishuConfig()
-    // todo 真实校验
     const aConfig = new Configuration({
       session: feishuConfig.session as string,
       lark_oapi_csrf_token: feishuConfig.lark_oapi_csrf_token as string,

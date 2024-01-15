@@ -45,11 +45,12 @@ async function checkFeishuAuth(detial = false) {
   spinner.info('checking auth status')
   const success = await config.isAuth()
   if (detial) {
-    console.log('飞书配置信息：')
+    console.log('feishu detail config :')
     console.log(config.getFeishuConfig())
   }
   if (success)
-    spinner.succeed('飞书已经授权')
+  // 用英文
+    spinner.succeed(`Hello ${config.nickname}, you have been granted authorization in Feishu.`)
   else
-    spinner.fail('飞书未授权')
+    spinner.fail('You are not authorized in feishu')
 }

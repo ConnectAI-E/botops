@@ -2,6 +2,7 @@ import Ajv from 'ajv'
 import fs from 'fs-extra'
 
 export interface FeishuPlatformConfig {
+  appId?: string
   events: string[]
   encryptKey: string
   verificationToken: string
@@ -10,6 +11,7 @@ export interface FeishuPlatformConfig {
   verificationUrl: string
 
 }
+
 export interface DeployConfig {
   name: string
   desc: string
@@ -22,6 +24,7 @@ export class DeployConfig {
   version = '0.0.1'
   ajv: Ajv
   config: DeployConfig = {} as any
+
   constructor() {
     this.ajv = new Ajv()
   }
@@ -47,6 +50,9 @@ export class DeployConfig {
         feishuConfig: {
           type: 'object',
           properties: {
+            appId: {
+              type: 'string',
+            },
             events: {
               type: 'array',
               items: {
@@ -126,6 +132,17 @@ export class DeployConfig {
     this.config = JSON.parse(config)
   }
 
+  get botBaseInfo() {
+    // name: string
+    // desc?: string
+    // avatar?: string
+    return {
+      name: this.config.name,
+      desc: this.config.desc,
+      avatar: this.config.avatar,
+    }
+  }
+
   get botName() {
     return this.config.name
   }
@@ -144,5 +161,28 @@ export class DeployConfig {
 
   get botFeishuConfig() {
     return this.config.feishuConfig
+  }
+
+  get ifFirstDeploy() {
+    return this.config.feishuConfig.appId === undefined
+  }
+
+  get events() {
+    return this.config.feishuConfig.events
+  }
+
+  get eventCallbackUrl() {
+    return {
+      verificationToken: this.config.feishuConfig.verificationToken,
+      verificationUrl: this.config.feishuConfig.verificationUrl,
+    }
+  }
+
+  get scopeIds() {
+    return this.config.feishuConfig.scopeIds
+  }
+
+  get cardRequestUrl() {
+    return this.config.feishuConfig.cardRequestUrl
   }
 }

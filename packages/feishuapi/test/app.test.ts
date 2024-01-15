@@ -5,9 +5,8 @@ import type { AppInfo, EventUrlInfo } from '../src/app'
 import { FeishuAppPlus, OpenApp } from '../src/app'
 
 const testConfig: FeishuLoginCookies = {
-  lark_oapi_csrf_token: 'Y1iA0mNt5CrgKU0w10OhkgwA61Z8xaa4+jMXdW1BVCU=',
-  session: 'XN0YXJ0-aa0n2124-c8c4--b7b7-7684ceb5b9aa-WVuZA',
-
+  lark_oapi_csrf_token: '6YRvL8A3JuqniYsZyAf6c//eMBfh3jaDMF6Vc1Sr870=',
+  session: 'XN0YXJ0-39ej5d23-864f-4461-aad1-b0eacaf2cc99-WVuZA',
 }
 
 const config = new Configuration(testConfig)

@@ -29,6 +29,11 @@ export function builder(yargs: Argv) {
       type: 'boolean',
       alias: 'c',
     })
+    .option('cookies', {
+      describe: 'Login with cookies',
+      type: 'string',
+      alias: 'k',
+    })
 }
 
 export async function handler(argv: any) {

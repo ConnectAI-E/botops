@@ -61,3 +61,32 @@ export function getFeishuCookies() {
 }
 
 // getFeishuCookies().then(cookies => console.log(cookies)).catch(err => console.error(err));
+
+export function FormatCookie(cookies: string) {
+  const cookieArr = cookies.split(';')
+  const result = [] as any
+  cookieArr.forEach((item) => {
+    const [name, value] = item.split('=')
+    result.push({ name: name.trim(), value })
+  },
+  )
+  return result
+}
+
+export function FilterCookie(cookies): object {
+  const filterArr = cookies.filter((item) => {
+    return item.name === 'lark_oapi_csrf_token' || item.name === 'session'
+  }).map(({ name, value }) => ({ name, value }))
+
+  const out = filterArr.reduce((acc, { name, value }) => {
+    acc[name] = value
+    return acc
+  }, {})
+  return out
+}
+
+export function GetFeishuCookieByStr(cookies: string) {
+  const cookieObj = FormatCookie(cookies)
+  const targetCookie = FilterCookie(cookieObj)
+  return targetCookie
+}

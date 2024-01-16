@@ -93,6 +93,18 @@ describe('app', async () => {
     console.log(JSON.stringify(result))
     expect(result).not.toBeUndefined()
   })
+
+  it('should get appBaseInfo', async () => {
+    const result = await app.getAppBaseInfo('cli_a52ca0ba25b2100d')
+    console.log(JSON.stringify(result))
+    expect(result).not.toBeUndefined()
+  })
+
+  it('should get appDeployinfo', async () => {
+    const result = await app.getAppDeployInfo('cli_a52ca0ba25b2100d')
+    console.log(JSON.stringify(result))
+    expect(result).not.toBeUndefined()
+  })
 })
 
 describe('scoop', async () => {
@@ -181,6 +193,7 @@ describe('event test', async () => {
     console.log(JSON.stringify(result))
     expect(result).not.toBeUndefined()
   })
+
   it('add event', async () => {
     await app.enableBot(id)
     const events = ['im.message.message_read_v1', 'im.message.receive_v1', '20']

@@ -35,3 +35,7 @@ export function changeArgvToString(argv: any): string {
       return String(argv)
   }
 }
+
+export function isValidFeishuID(id: string) {
+  return id.startsWith('cli_')
+}

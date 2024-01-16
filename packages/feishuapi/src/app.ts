@@ -160,6 +160,7 @@ export class OpenApp {
     }
   }
 
+  //
   // "events": [
   //   "im.message.message_read_v1",
   //   "im.message.receive_v1"
@@ -190,7 +191,7 @@ export class OpenApp {
   // "cardRequestUrl": "https://connect-ai-e.com/feishu/64af64fab84e8e000162ef66/card",
   // "verificationUrl": "https://connect-ai-e.com/feishu/64af64fab84e8e000162ef66/event"
   async getAppDeployInfo(appId: string) {
-    const scoopIds = await this.getAvailableScope(appId)
+    const scopeIds = await this.getAvailableScope(appId)
     const cardRequestUrl = await this.botManager.showBotCallBack(appId)
     const eventInfos = await this.eventManager.getEventInfo(appId)
     const verificationUrl = eventInfos.verificationUrl
@@ -201,7 +202,7 @@ export class OpenApp {
       events,
       encryptKey,
       verificationToken,
-      scoopIds,
+      scopeIds,
       cardRequestUrl,
       verificationUrl,
     }

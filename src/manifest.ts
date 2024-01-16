@@ -146,6 +146,7 @@ export class DeployConfig {
       return false
 
     const config = await this.loadFileByPath(path)
+    console.log(config)
     if (!config)
       return false
     return this.validateConfig(JSON.parse(config))

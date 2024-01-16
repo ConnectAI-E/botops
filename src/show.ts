@@ -2,11 +2,12 @@
 import type { Argv } from 'yargs'
 import ora from 'ora'
 import confirm from '@inquirer/confirm'
+
+// @ts-expect-error This is an expected error because no type definition for this package
 import { getFeishuCookies } from 'botops-feishu'
 import { FeishuConfigManager } from './config'
 import { greenIt, isValidFeishuID, redIt } from './utils'
 
-// @ts-expect-error This is an expected error because no type definition for this package
 import { DeployConfig } from './manifest'
 
 export const command = 'show'

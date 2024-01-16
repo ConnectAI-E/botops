@@ -79,32 +79,35 @@ export async function handler(argv: any) {
         greenIt(`即将覆盖飞书机器人 ${aDeployConfig.botName}(${oldAppId})`)
         appId = oldAppId
       }
-      appId = await appBuilder.newApp(aDeployConfig.botBaseInfo)
-      greenIt(`新的飞书机器人 ${aDeployConfig.botName}(${appId}) 初始化成功`)
+      else {
+        appId = await appBuilder.newApp(aDeployConfig.botBaseInfo)
+        greenIt(`新的飞书机器人 ${aDeployConfig.botName}(${appId}) 初始化成功`)
+      }
     }
     else {
       appId = await appBuilder.newApp(aDeployConfig.botBaseInfo)
       greenIt(`新的飞书机器人 ${aDeployConfig.botName}(${appId}) 初始化成功`)
     }
   }
+  else {
+    appId = aDeployConfig.appId as string
+  }
   const url = aDeployConfig.getAfterAppIdChangeHookUrl()
   if (url) {
     const appSecret = await appBuilder.getAppSecret(appId)
     await aDeployConfig.hookAfterAppIdChange(url, appId, appSecret)
   }
-  else {
-    appId = aDeployConfig.appId as string
-    try {
-      await appBuilder.versionManager.clearUnPublishedVersion(appId)
-    }
-    catch (e) {
-      redIt(`没有对飞书机器人 ${aDeployConfig.botName}(${appId}) 的操作权限`)
-      process.exit(1)
-    }
-
-    await appBuilder.changeAppInfo(appId, aDeployConfig.botBaseInfo)
-    greenIt(`即将为飞书机器人 ${aDeployConfig.botName}(${appId}) 部署新版本`)
+  try {
+    await appBuilder.versionManager.clearUnPublishedVersion(appId)
   }
+  catch (e) {
+    redIt(`没有对飞书机器人 ${aDeployConfig.botName}(${appId}) 的操作权限`)
+    process.exit(1)
+  }
+
+  await appBuilder.changeAppInfo(appId, aDeployConfig.botBaseInfo)
+  greenIt(`即将为飞书机器人 ${aDeployConfig.botName}(${appId}) 部署新版本`)
+
   const tasks = new Listr([
     {
       title: '操作前检查',

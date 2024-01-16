@@ -68,6 +68,14 @@ export class FeishuConfigManager {
     this.config.set('feishuConfig', config)
   }
 
+  // 格式是否符合要求
+  checkFeishuConfig(config: FeishuConfig) {
+    const { session, lark_oapi_csrf_token } = config
+    if (!session || !lark_oapi_csrf_token)
+      return false
+    return true
+  }
+
   updateFeishuConfig(config: FeishuConfig) {
     const feishuConfig = this.getFeishuConfig()
     this.setFeishuConfig({ ...feishuConfig, ...config })

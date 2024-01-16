@@ -79,6 +79,8 @@ export async function handler(argv: any) {
         greenIt(`即将覆盖飞书机器人 ${aDeployConfig.botName}(${oldAppId})`)
         appId = oldAppId
       }
+      appId = await appBuilder.newApp(aDeployConfig.botBaseInfo)
+      greenIt(`新的飞书机器人 ${aDeployConfig.botName}(${appId}) 初始化成功`)
     }
     else {
       appId = await appBuilder.newApp(aDeployConfig.botBaseInfo)

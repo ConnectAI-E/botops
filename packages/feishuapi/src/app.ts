@@ -153,6 +153,11 @@ export class OpenApp {
     return this.scopeManager.getAllScope(appId)
   }
 
+  async getAvailableScope(appId: string) {
+    const allScope = await this.scopeManager.getAllAvailableScope(appId)
+    return this.scopeManager.showIds(allScope)
+  }
+
   // 添加权限
   // https://open.feishu.cn/developers/v1/scope/update/cli_a416b219bd3a100e
   // {
@@ -213,6 +218,22 @@ class BotManager {
       cardRequestUrl: url,
     })
     return result.data.access
+  }
+
+  // https://open.feishu.cn/developers/v1/robot/cli_a52ca0ba25b2100d
+  async showBotCallBack(appId: string) {
+    const result = await this.cfg.aGetRequest(`developers/v1/robot/${appId}`)
+    return result.data.cardRequestUrl
+  }
+
+  async showIfBotEnable(appId: string) {
+    const result = await this.cfg.aGetRequest(`developers/v1/robot/${appId}`)
+    return result.data.enable
+  }
+
+  async showIfBotMenuEnable(appId: string) {
+    const result = await this.cfg.aGetRequest(`developers/v1/robot/${appId}`)
+    return result.data.botMenuEnable
   }
 
   async addBotCallBack(appId: string, url: string) {
@@ -415,6 +436,17 @@ export class ScopeManager {
   async getAllScope(appId: string) {
     const result = await this.cfg.aPostRequest(`developers/v1/scope/all/${appId}`)
     return result.data.scopes
+  }
+
+  async getAllAvailableScope(appId: string) {
+    const result = await this.getAllScope(appId)
+    const openedScope = result.filter(scope => scope.status !== 0)
+    return openedScope
+  }
+
+  showIds(scopes: any[]) {
+    const ids = scopes.map(scope => scope.id)
+    return ids
   }
 
   async addScope(appId: string, scopes: string[]) {

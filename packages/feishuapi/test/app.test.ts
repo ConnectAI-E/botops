@@ -97,12 +97,19 @@ describe('app', async () => {
 
 describe('scoop', async () => {
   await app.init()
-  const id = 'cli_a5c90b9de4b8500d'
+  const id = 'cli_a52ca0ba25b2100d'
   it('get all scoop', async () => {
     const result = await app.getAllScope(id)
-    console.log(JSON.stringify(result))
+    // console.log(JSON.stringify(result))
     expect(result).not.toBeUndefined()
   })
+
+  it('get all scoop', async () => {
+    const ids = await app.getAvailableScope(id)
+    console.log(ids)
+    expect(ids).not.toBeUndefined()
+  })
+
   it('add scopes', async () => {
     await app.enableBot(id)
     const scopes0 = ['21001', '7', '21003', '21002', '20001', '20011', '3001', '20012', '6005', '20010', '3000', '20013', '20014', '20015', '20008', '1000', '1006', '1005', '20009', '26015']
@@ -119,17 +126,37 @@ describe('scoop', async () => {
 })
 describe('bot', async () => {
   await app.init()
-  const id = 'cli_a42f270070f8500d'
+  const id = 'cli_a52ca0ba25b2100d'
   it('enable bot', async () => {
     const result = await app.botManager.enableBot(id)
     console.log(JSON.stringify(result))
     expect(result).not.toBeUndefined()
   })
+
   it('disable bot', async () => {
     const result = await app.botManager.disableBot(id)
     console.log(JSON.stringify(result))
     expect(result).not.toBeUndefined()
   })
+
+  it('show BotCallBack', async () => {
+    const result = await app.botManager.showBotCallBack(id)
+    console.log(JSON.stringify(result))
+    expect(result).not.toBeUndefined()
+  })
+
+  it('show if bot is enable', async () => {
+    const result = await app.botManager.showIfBotEnable(id)
+    console.log(JSON.stringify(result))
+    expect(result).not.toBeUndefined()
+  })
+
+  it('show if bot menu is enable', async () => {
+    const result = await app.botManager.showIfBotMenuEnable(id)
+    console.log(JSON.stringify(result))
+    expect(result).not.toBeUndefined()
+  })
+
   it('checkBotCallBack', async () => {
     // https://open.feishu.cn/developers/v1/robot/check_url/cli_a416b219bd3a100e
     const verificationUrl = 'https://ai-feishu.forkway.cn/api/callback/lark/65/card'
@@ -147,7 +174,7 @@ describe('bot', async () => {
 })
 describe('event test', async () => {
   await app.init()
-  const id = 'cli_a5facbb1443cd00d'
+  const id = 'cli_a52ffc2e8e3ad00d'
 
   it('get all event info', async () => {
     const result = await app.getEventInfo(id)

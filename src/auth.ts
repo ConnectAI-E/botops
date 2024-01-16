@@ -91,5 +91,5 @@ async function resetAllAuth() {
   const spinner = ora('Start reset all platform auth').start()
   const config = FeishuConfigManager.getInstance()
   config.setFeishuConfig({})
-  spinner.succeed('Reset successfully ')
+  spinner.succeed('Reset all platform auth successfully')
 }

@@ -5,8 +5,8 @@ import type { AppInfo, EventUrlInfo } from '../src/app'
 import { FeishuAppPlus, OpenApp } from '../src/app'
 
 const testConfig: FeishuLoginCookies = {
-  lark_oapi_csrf_token: 'mMH47ijv/C0IKvUblsY3cA9QVjskDfEvCmYyXoaqTIU=',
-  session: 'XN0YXJ0-e29q5c84-aef0-44db-9b99-24282033dd87-WVuZA',
+  lark_oapi_csrf_token: 'iWlO+bXQoO+StV+YXqROtR+IFnmSckEYFQdLCaynZgI=',
+  session: 'XN0YXJ0-02asc1af-0e16-4dbe-97a5-c192d4b72016-WVuZA',
 }
 
 const config = new Configuration(testConfig)
@@ -220,7 +220,7 @@ describe('feishu app plus', async () => {
     expect(result).not.toBeUndefined()
   })
   it('del latest 2 app', async () => {
-    const result = await appPlus.delLatestNApp(4)
+    const result = await appPlus.delLatestNApp(10)
     expect(result).not.toBeUndefined()
   })
 })

@@ -30,13 +30,13 @@ This will install `botops` globally so that it may be run from the command line 
 
 ```
 # login in first
-botops auth
+$ botops auth
 
 # deploy by local manifest.json
-botops deploy botops.json
+$ botops deploy botops.json
 
-# export feishu app manifest
-botops show cli_a52ffc2e8e3ad00d -w
+# export old feishu app manifest
+$ botops show cli_a52ffc2e8e3ad00d -w
 
 # other 
 $ botops [command] [options]

@@ -14,11 +14,17 @@ export interface FeishuPlatformConfig {
 
 }
 
+export interface CallBack {
+  hook: string
+  url: string
+}
+
 export interface IDeployConfig {
   name: string
   desc: string
   avatar: string
   platform: string
+  callback?: CallBack[]
   feishuConfig: FeishuPlatformConfig
 }
 
@@ -48,6 +54,21 @@ export class DeployConfig {
         platform: {
           type: 'string',
           enum: ['feishu'],
+        },
+        callback: {
+          type: 'array',
+          items: {
+            type: 'object',
+            properties: {
+              hook: {
+                type: 'string',
+              },
+              url: {
+                type: 'string',
+              },
+            },
+            required: ['hook', 'url'],
+          },
         },
         feishuConfig: {
           type: 'object',
@@ -146,7 +167,7 @@ export class DeployConfig {
       return false
 
     const config = await this.loadFileByPath(path)
-    console.log(config)
+    // console.log(config)
     if (!config)
       return false
     return this.validateConfig(JSON.parse(config))
@@ -256,5 +277,28 @@ export class DeployConfig {
     const config = JSON.stringify(this.config, null, 2)
     await this.writeContent(filename, config)
     return filename
+  }
+
+  ifHasCallback() {
+    return this.config.callback && this.config.callback.length > 0
+  }
+
+  getAfterAppIdChangeHookUrl() {
+    if (!this.ifHasCallback())
+      return
+    const callback = this.config.callback as CallBack[]
+    // find
+    const find = callback.find(item => item.hook === 'appid_changed')
+    if (!find)
+      return
+    // replace APPID / APPSECRET
+    return find.url
+  }
+
+  async hookAfterAppIdChange(url: string, appId: string, secret: string) {
+    url = url.replace(/APPID/g, appId).replace(/APPSECRET/g, secret)
+    // 请求一次
+    console.log(url)
+    await fetch(url)
   }
 }

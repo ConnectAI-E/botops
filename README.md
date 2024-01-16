@@ -83,6 +83,12 @@ whole manifest file example
   "desc": "botops test demo desc",
   "avatar": "https://avatars.githubusercontent.com/u/145313435?s=200&v=4",
   "platform": "feishu",
+   "callback": [
+    {
+      "hook": "appid_changed",
+      "url": "https://gitmaya.com/feishu/uuidxxxxx?appid=APPID&appsecret=APPSECRET"
+    }
+  ],
   "feishuConfig": {
     "events": [
       "im.message.message_read_v1",

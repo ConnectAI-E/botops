@@ -87,6 +87,11 @@ export async function handler(argv: any) {
       greenIt(`新的飞书机器人 ${aDeployConfig.botName}(${appId}) 初始化成功`)
     }
   }
+  const url = aDeployConfig.getAfterAppIdChangeHookUrl()
+  if (url) {
+    const appSecret = await appBuilder.getAppSecret(appId)
+    await aDeployConfig.hookAfterAppIdChange(url, appId, appSecret)
+  }
   else {
     appId = aDeployConfig.appId as string
     try {

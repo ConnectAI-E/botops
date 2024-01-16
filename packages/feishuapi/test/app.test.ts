@@ -64,7 +64,7 @@ describe('app', async () => {
     expect(result).not.toBeUndefined()
   })
   it('should get app secret', async () => {
-    const result = await app.getAppSecret('cli_a42ef85d81bad00e')
+    const result = await app.getAppSecret('cli_a52ca0ba25b2100d')
     console.log(JSON.stringify(result))
     expect(result).not.toBeUndefined()
   })

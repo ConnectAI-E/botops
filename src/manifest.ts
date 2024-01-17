@@ -219,6 +219,7 @@ export class DeployConfig {
 
   get eventCallbackUrl() {
     return {
+      encryptKey: this.config.feishuConfig.encryptKey,
       verificationToken: this.config.feishuConfig.verificationToken,
       verificationUrl: this.config.feishuConfig.verificationUrl,
     }

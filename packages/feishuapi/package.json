@@ -1,7 +1,7 @@
 {
   "name": "botops-feishu",
   "type": "module",
-  "version": "0.0.9",
+  "version": "0.0.10",
   "packageManager": "pnpm@8.14.0",
   "description": "botops feishu auto deploy module",
   "author": "River <laolei@forkway.c>",

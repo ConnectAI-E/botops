@@ -1,9 +1,18 @@
 
+
 <h1 align="center">📦 BotOps</h1>
 
 <p align="center">A modern cli tool that deploy ChatBot fast</p>
 
 <pre align="center">npx <b>botops</b></pre>
+
+
+
+https://github.com/ConnectAI-E/botops/assets/50035229/695afac9-5db0-4221-ba9a-30d8c085ff34
+
+
+
+
 
 ## Features
 

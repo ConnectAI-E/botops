@@ -77,7 +77,6 @@
     "eslint": "^8.41.0",
     "esno": "^0.16.3",
     "lint-staged": "^13.2.2",
-    "pkg": "^5.8.1",
     "pnpm": "^8.6.0",
     "rimraf": "^5.0.1",
     "simple-git-hooks": "^2.8.1",

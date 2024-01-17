@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest'
 import { FilterCookie, FormatCookie, getFeishuCookies } from '../src/auth'
 
 describe('test cookies', () => {
-  it.skip('should be able to get cookies', async () => {
+  it('should be able to get cookies', async () => {
     const cookie = await getFeishuCookies()
     console.log(cookie)
     console.log(cookie)

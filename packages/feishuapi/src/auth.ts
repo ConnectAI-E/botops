@@ -32,12 +32,12 @@ async function getCookies(loginUrl) {
   return result
 }
 
-// async function checkLogin(page) {
-//   // 实现检查登录状态的逻辑，根据是否含有特定cookie
-//   const cookies = await page.cookies()
-//   const isLoggedIn = cookies.some(cookie => cookie.name === 'session')
-//   return isLoggedIn
-// }
+async function checkLogin(page) {
+  // 实现检查登录状态的逻辑，根据是否含有特定cookie
+  const cookies = await page.cookies()
+  const isLoggedIn = cookies.some(cookie => cookie.name === 'session')
+  return isLoggedIn
+}
 
 async function waitForUserLogin(page) {
   // 等待用户登录,直到元素渲染
@@ -46,16 +46,17 @@ async function waitForUserLogin(page) {
     timeout: 0,
   })
 
-  // 登录后再次获取 cookies
+  // // 登录后再次获取 cookies
   // const cookies = await page.cookies();
   // console.log(cookies);
 
+  // 根据所需 cookie 是否获取到来确定是否登录成功
   // if (loggedInElement) {
-  //   console.log('登录成功');
-  //   return;
+  //     console.log('登录成功');
+  //     return ;
   // } else {
-  //   console.log('登录失败');
-  //   return;
+  //     console.log('登录失败');
+  //     return;
   // }
 }
 

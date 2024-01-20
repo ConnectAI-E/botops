@@ -2,9 +2,14 @@ import puppeteer from 'puppeteer-core'
 
 async function getCookies(loginUrl) {
   let result
-  const browser = await puppeteer.launch({ channel: 'chrome', headless: false }) // 设置 headless 为 false 以打开浏览器窗口
+  const browser = await puppeteer.launch({
+    channel: 'chrome',
+    headless: false,
+    args: ['--window-size=500,700'], // 设置浏览器窗口的大小
+  }) // 设置 headless 为 false 以打开浏览器窗口
   try {
     const page = await browser.newPage()
+    page.setViewport({ width: 500, height: 700 })
     await page.goto(loginUrl)
     // 这里需要一些机制来等待用户登录
     await waitForUserLogin(page)
@@ -60,3 +65,32 @@ export function getFeishuCookies() {
 }
 
 // getFeishuCookies().then(cookies => console.log(cookies)).catch(err => console.error(err));
+
+export function FormatCookie(cookies: string) {
+  const cookieArr = cookies.split(';')
+  const result = [] as any
+  cookieArr.forEach((item) => {
+    const [name, value] = item.split('=')
+    result.push({ name: name.trim(), value })
+  },
+  )
+  return result
+}
+
+export function FilterCookie(cookies): object {
+  const filterArr = cookies.filter((item) => {
+    return item.name === 'lark_oapi_csrf_token' || item.name === 'session'
+  }).map(({ name, value }) => ({ name, value }))
+
+  const out = filterArr.reduce((acc, { name, value }) => {
+    acc[name] = value
+    return acc
+  }, {})
+  return out
+}
+
+export function GetFeishuCookieByStr(cookies: string) {
+  const cookieObj = FormatCookie(cookies)
+  const targetCookie = FilterCookie(cookieObj)
+  return targetCookie
+}

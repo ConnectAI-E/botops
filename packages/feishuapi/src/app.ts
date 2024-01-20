@@ -142,6 +142,72 @@ export class OpenApp {
     return result.data
   }
 
+  // https://open.feishu.cn/developers/v1/app/cli_a52ca0ba25b2100d
+  async getApp(appId: string) {
+    const result = await this.cfg.aGetRequest(`developers/v1/app/${appId}`)
+    return result.data
+  }
+
+  // "name": "demoName",
+  // "desc": "onebot test demo",
+  // "avatar": "https://avatars.githubusercontent.com/u/145313435?s=200&v=4",
+  async getAppBaseInfo(appId: string) {
+    const result = await this.getApp(appId)
+    return {
+      name: result.name,
+      desc: result.desc,
+      avatar: result.avatar,
+    }
+  }
+
+  //
+  // "events": [
+  //   "im.message.message_read_v1",
+  //   "im.message.receive_v1"
+  // ],
+  // "encryptKey": "e-fJKrqNbSz9NqSWL5",
+  // "verificationToken": "v-Ohw8k6KwVynNmzXX",
+  // "scopeIds": [
+  //   "21001",
+  //   "7",
+  //   "21003",
+  //   "21002",
+  //   "20001",
+  //   "20011",
+  //   "3001",
+  //   "20012",
+  //   "6005",
+  //   "20010",
+  //   "3000",
+  //   "20013",
+  //   "20014",
+  //   "20015",
+  //   "20008",
+  //   "1000",
+  //   "1006",
+  //   "1005",
+  //   "20009"
+  // ],
+  // "cardRequestUrl": "https://connect-ai-e.com/feishu/64af64fab84e8e000162ef66/card",
+  // "verificationUrl": "https://connect-ai-e.com/feishu/64af64fab84e8e000162ef66/event"
+  async getAppDeployInfo(appId: string) {
+    const scopeIds = await this.getAvailableScope(appId)
+    const cardRequestUrl = await this.botManager.showBotCallBack(appId)
+    const eventInfos = await this.eventManager.getEventInfo(appId)
+    const verificationUrl = eventInfos.verificationUrl
+    const verificationToken = eventInfos.verificationToken
+    const encryptKey = eventInfos.encryptKey
+    const events = eventInfos.events
+    return {
+      events,
+      encryptKey,
+      verificationToken,
+      scopeIds,
+      cardRequestUrl,
+      verificationUrl,
+    }
+  }
+
   // bot
   async enableBot(appId: string) {
     return this.botManager.enableBot(appId)
@@ -151,6 +217,11 @@ export class OpenApp {
   // 获取所有权限
   async getAllScope(appId: string) {
     return this.scopeManager.getAllScope(appId)
+  }
+
+  async getAvailableScope(appId: string) {
+    const allScope = await this.scopeManager.getAllAvailableScope(appId)
+    return this.scopeManager.showIds(allScope)
   }
 
   // 添加权限
@@ -170,6 +241,26 @@ export class OpenApp {
 
   async getEventInfo(appId: string) {
     return this.eventManager.getEventInfo(appId)
+  }
+
+  async getEventEncryptKey(appId: string) {
+    const eventInfo = await this.getEventInfo(appId)
+    return eventInfo.encryptKey
+  }
+
+  async getEventVerificationToken(appId: string) {
+    const eventInfo = await this.getEventInfo(appId)
+    return eventInfo.verificationToken
+  }
+
+  async getEventVerificationUrl(appId: string) {
+    const eventInfo = await this.getEventInfo(appId)
+    return eventInfo.verificationUrl
+  }
+
+  async getEvents(appId: string) {
+    const eventInfo = await this.getEventInfo(appId)
+    return eventInfo.events
   }
 
   // 检测有没有同名的机器人,如果有返回appId
@@ -213,6 +304,22 @@ class BotManager {
       cardRequestUrl: url,
     })
     return result.data.access
+  }
+
+  // https://open.feishu.cn/developers/v1/robot/cli_a52ca0ba25b2100d
+  async showBotCallBack(appId: string) {
+    const result = await this.cfg.aGetRequest(`developers/v1/robot/${appId}`)
+    return result.data.cardRequestUrl
+  }
+
+  async showIfBotEnable(appId: string) {
+    const result = await this.cfg.aGetRequest(`developers/v1/robot/${appId}`)
+    return result.data.enable
+  }
+
+  async showIfBotMenuEnable(appId: string) {
+    const result = await this.cfg.aGetRequest(`developers/v1/robot/${appId}`)
+    return result.data.botMenuEnable
   }
 
   async addBotCallBack(appId: string, url: string) {
@@ -415,6 +522,17 @@ export class ScopeManager {
   async getAllScope(appId: string) {
     const result = await this.cfg.aPostRequest(`developers/v1/scope/all/${appId}`)
     return result.data.scopes
+  }
+
+  async getAllAvailableScope(appId: string) {
+    const result = await this.getAllScope(appId)
+    const openedScope = result.filter(scope => scope.status !== 0)
+    return openedScope
+  }
+
+  showIds(scopes: any[]) {
+    const ids = scopes.map(scope => scope.id)
+    return ids
   }
 
   async addScope(appId: string, scopes: string[]) {

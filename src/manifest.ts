@@ -1,6 +1,7 @@
 import Ajv from 'ajv'
 import fs from 'fs-extra'
 import fetch from 'node-fetch'
+import colorize from 'json-colorizer'
 
 export interface FeishuPlatformConfig {
   appId?: string
@@ -13,18 +14,24 @@ export interface FeishuPlatformConfig {
 
 }
 
-export interface DeployConfig {
+export interface CallBack {
+  hook: string
+  url: string
+}
+
+export interface IDeployConfig {
   name: string
   desc: string
   avatar: string
   platform: string
+  callback?: CallBack[]
   feishuConfig: FeishuPlatformConfig
 }
 
 export class DeployConfig {
   version = '0.0.1'
   ajv: Ajv
-  config: DeployConfig = {} as any
+  config: IDeployConfig = {} as any
 
   constructor() {
     this.ajv = new Ajv()
@@ -47,6 +54,21 @@ export class DeployConfig {
         platform: {
           type: 'string',
           enum: ['feishu'],
+        },
+        callback: {
+          type: 'array',
+          items: {
+            type: 'object',
+            properties: {
+              hook: {
+                type: 'string',
+              },
+              url: {
+                type: 'string',
+              },
+            },
+            required: ['hook', 'url'],
+          },
         },
         feishuConfig: {
           type: 'object',
@@ -145,6 +167,7 @@ export class DeployConfig {
       return false
 
     const config = await this.loadFileByPath(path)
+    // console.log(config)
     if (!config)
       return false
     return this.validateConfig(JSON.parse(config))
@@ -196,6 +219,7 @@ export class DeployConfig {
 
   get eventCallbackUrl() {
     return {
+      encryptKey: this.config.feishuConfig.encryptKey,
       verificationToken: this.config.feishuConfig.verificationToken,
       verificationUrl: this.config.feishuConfig.verificationUrl,
     }
@@ -211,5 +235,71 @@ export class DeployConfig {
 
   get appId() {
     return this.config.feishuConfig.appId
+  }
+
+  get warpConfig() {
+    return JSON.stringify(this.config, null, 2)
+  }
+
+  async addConfig(newConfig: IDeployConfig) {
+    this.config = {
+      ...this.config,
+      ...newConfig,
+    }
+  }
+
+  printColorConfig() {
+    console.log(colorize(this.warpConfig))
+  }
+
+  async writeContent(filePath: string, str: string) {
+    try {
+      // 格式化字符串或者进行其他处理
+      // 写入文件
+      await fs.writeFile(filePath, str)
+    }
+    catch (error) {
+      console.error('写入文件时出错：', error)
+    }
+  }
+
+  formatName(name: string) {
+    // change blank to -
+    return name.replace(/\s+/g, '-')
+  }
+
+  async exportConfig(filename = 'default.json') {
+    if (!this.config)
+      return
+
+    if (filename === 'default.json')
+      filename = `${this.formatName(this.botName)}.botops.json`
+
+    const config = JSON.stringify(this.config, null, 2)
+    await this.writeContent(filename, config)
+    return filename
+  }
+
+  ifHasCallback() {
+    return this.config.callback && this.config.callback.length > 0
+  }
+
+  getAfterAppIdChangeHookUrl() {
+    if (!this.ifHasCallback())
+      return
+    const callback = this.config.callback as CallBack[]
+    // find
+    const find = callback.find(item => item.hook === 'appid_changed')
+    if (!find)
+      return
+    // replace APPID / APPSECRET
+    return find.url
+  }
+
+  async hookAfterAppIdChange(url: string, appId: string, secret: string) {
+    url = url.replace(/APPID/g, appId).replace(/APPSECRET/g, secret)
+    // 请求一次
+    console.log(url)
+    await fetch(url)
   }
 }

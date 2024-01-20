@@ -4,7 +4,7 @@ import ora from 'ora'
 import select, { Separator } from '@inquirer/select'
 
 // @ts-expect-error This is an expected error because no type definition for this package
-import { getFeishuCookies } from 'botops-feishu'
+import { GetFeishuCookieByStr, getFeishuCookies } from 'botops-feishu'
 import confirm from '@inquirer/confirm'
 import { FeishuConfigManager } from './config'
 import { redIt } from './utils'
@@ -29,11 +29,20 @@ export function builder(yargs: Argv) {
       type: 'boolean',
       alias: 'c',
     })
+    .option('cookies', {
+      describe: 'Login with cookies',
+      type: 'string',
+      alias: 'k',
+    })
 }
 
 export async function handler(argv: any) {
   if (argv.clear) {
     resetAllAuth()
+    return
+  }
+  if (argv.cookies) {
+    reauthorizeFeishuByStr(argv.cookies)
     return
   }
   if (argv.feishu) {
@@ -71,7 +80,7 @@ async function reauthorizeDingTalk() {
 }
 
 async function reauthorizeFeishu() {
-  const spinner = ora('Reauthorizing Feishu').start()
+  const spinner = ora('Reauthorizing Feishu By Website').start()
   const config = FeishuConfigManager.getInstance()
   const newCookie = await getFeishuCookies() as any
   config.setFeishuConfig(newCookie)
@@ -79,7 +88,25 @@ async function reauthorizeFeishu() {
   spinner.succeed(`🚀Successfully reauthorized Feishu! Welcome, ${config.nickname}!`)
   spinner.stop()
   process.exit(0)
-  // return newCookie;
+}
+
+async function reauthorizeFeishuByStr(cookiesStr: string) {
+  const spinner = ora('Reauthorizing Feishu By Cookie').info()
+  const config = FeishuConfigManager.getInstance()
+  const newCookie = await GetFeishuCookieByStr(cookiesStr) as any
+
+  const ifOk = config.checkFeishuConfig(newCookie)
+  if (!ifOk) {
+    spinner.fail('Feishu Reauthorization Failed! Please verify your cookies.')
+    spinner.stop()
+    process.exit(0)
+  }
+  config.setFeishuConfig(newCookie)
+
+  await config.updateNickname()
+  spinner.succeed(`🚀Successfully reauthorized Feishu! Welcome, ${config.nickname}!`)
+  spinner.stop()
+  process.exit(0)
 }
 
 async function resetAllAuth() {
@@ -91,5 +118,5 @@ async function resetAllAuth() {
   const spinner = ora('Start reset all platform auth').start()
   const config = FeishuConfigManager.getInstance()
   config.setFeishuConfig({})
-  spinner.succeed('Reset successfully ')
+  spinner.succeed('Reset all platform auth successfully')
 }

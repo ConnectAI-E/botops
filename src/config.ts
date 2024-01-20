@@ -68,17 +68,32 @@ export class FeishuConfigManager {
     this.config.set('feishuConfig', config)
   }
 
+  // 格式是否符合要求
+  checkFeishuConfig(config: FeishuConfig) {
+    const { session, lark_oapi_csrf_token } = config
+    if (!session || !lark_oapi_csrf_token)
+      return false
+    return true
+  }
+
   updateFeishuConfig(config: FeishuConfig) {
     const feishuConfig = this.getFeishuConfig()
     this.setFeishuConfig({ ...feishuConfig, ...config })
   }
 
-  async updateNickname() {
+  private createAConfig(): Configuration {
     const feishuConfig = this.getFeishuConfig()
-    const aConfig = new Configuration({
+    if (!feishuConfig)
+      throw new Error('No Feishu config')
+
+    return new Configuration({
       session: feishuConfig.session as string,
       lark_oapi_csrf_token: feishuConfig.lark_oapi_csrf_token as string,
     })
+  }
+
+  async updateNickname() {
+    const aConfig = this.createAConfig()
     const nickname = await aConfig.getNickname() as string
     this.updateFeishuConfig({ nickname })
   }
@@ -92,24 +107,13 @@ export class FeishuConfigManager {
     const feishuConfig = this.getFeishuConfig()
     if (!feishuConfig)
       return false
-
-    const aConfig = new Configuration({
-      session: feishuConfig.session as string,
-      lark_oapi_csrf_token: feishuConfig.lark_oapi_csrf_token as string,
-    })
+    const aConfig = this.createAConfig()
     const isAuthed = await aConfig.isAuthed()
     return isAuthed
   }
 
   get appBuilder() {
-    const feishuConfig = this.getFeishuConfig()
-    if (!feishuConfig)
-      throw new Error('no feishu config')
-
-    const aConfig = new Configuration({
-      session: feishuConfig.session as string,
-      lark_oapi_csrf_token: feishuConfig.lark_oapi_csrf_token as string,
-    })
+    const aConfig = this.createAConfig()
     const appBuilderInstance = new OpenApp(aConfig)
     return appBuilderInstance
   }

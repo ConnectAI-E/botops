@@ -5,8 +5,8 @@ import type { AppInfo, EventUrlInfo } from '../src/app'
 import { FeishuAppPlus, OpenApp } from '../src/app'
 
 const testConfig: FeishuLoginCookies = {
-  lark_oapi_csrf_token: 'mMH47ijv/C0IKvUblsY3cA9QVjskDfEvCmYyXoaqTIU=',
-  session: 'XN0YXJ0-e29q5c84-aef0-44db-9b99-24282033dd87-WVuZA',
+  lark_oapi_csrf_token: 'iWlO+bXQoO+StV+YXqROtR+IFnmSckEYFQdLCaynZgI=',
+  session: 'XN0YXJ0-02asc1af-0e16-4dbe-97a5-c192d4b72016-WVuZA',
 }
 
 const config = new Configuration(testConfig)
@@ -64,7 +64,7 @@ describe('app', async () => {
     expect(result).not.toBeUndefined()
   })
   it('should get app secret', async () => {
-    const result = await app.getAppSecret('cli_a42ef85d81bad00e')
+    const result = await app.getAppSecret('cli_a52ca0ba25b2100d')
     console.log(JSON.stringify(result))
     expect(result).not.toBeUndefined()
   })
@@ -93,16 +93,35 @@ describe('app', async () => {
     console.log(JSON.stringify(result))
     expect(result).not.toBeUndefined()
   })
+
+  it('should get appBaseInfo', async () => {
+    const result = await app.getAppBaseInfo('cli_a52ca0ba25b2100d')
+    console.log(JSON.stringify(result))
+    expect(result).not.toBeUndefined()
+  })
+
+  it('should get appDeployinfo', async () => {
+    const result = await app.getAppDeployInfo('cli_a52ca0ba25b2100d')
+    console.log(JSON.stringify(result))
+    expect(result).not.toBeUndefined()
+  })
 })
 
 describe('scoop', async () => {
   await app.init()
-  const id = 'cli_a5c90b9de4b8500d'
+  const id = 'cli_a52ca0ba25b2100d'
   it('get all scoop', async () => {
     const result = await app.getAllScope(id)
-    console.log(JSON.stringify(result))
+    // console.log(JSON.stringify(result))
     expect(result).not.toBeUndefined()
   })
+
+  it('get all scoop', async () => {
+    const ids = await app.getAvailableScope(id)
+    console.log(ids)
+    expect(ids).not.toBeUndefined()
+  })
+
   it('add scopes', async () => {
     await app.enableBot(id)
     const scopes0 = ['21001', '7', '21003', '21002', '20001', '20011', '3001', '20012', '6005', '20010', '3000', '20013', '20014', '20015', '20008', '1000', '1006', '1005', '20009', '26015']
@@ -119,17 +138,37 @@ describe('scoop', async () => {
 })
 describe('bot', async () => {
   await app.init()
-  const id = 'cli_a42f270070f8500d'
+  const id = 'cli_a52ca0ba25b2100d'
   it('enable bot', async () => {
     const result = await app.botManager.enableBot(id)
     console.log(JSON.stringify(result))
     expect(result).not.toBeUndefined()
   })
+
   it('disable bot', async () => {
     const result = await app.botManager.disableBot(id)
     console.log(JSON.stringify(result))
     expect(result).not.toBeUndefined()
   })
+
+  it('show BotCallBack', async () => {
+    const result = await app.botManager.showBotCallBack(id)
+    console.log(JSON.stringify(result))
+    expect(result).not.toBeUndefined()
+  })
+
+  it('show if bot is enable', async () => {
+    const result = await app.botManager.showIfBotEnable(id)
+    console.log(JSON.stringify(result))
+    expect(result).not.toBeUndefined()
+  })
+
+  it('show if bot menu is enable', async () => {
+    const result = await app.botManager.showIfBotMenuEnable(id)
+    console.log(JSON.stringify(result))
+    expect(result).not.toBeUndefined()
+  })
+
   it('checkBotCallBack', async () => {
     // https://open.feishu.cn/developers/v1/robot/check_url/cli_a416b219bd3a100e
     const verificationUrl = 'https://ai-feishu.forkway.cn/api/callback/lark/65/card'
@@ -147,13 +186,14 @@ describe('bot', async () => {
 })
 describe('event test', async () => {
   await app.init()
-  const id = 'cli_a5facbb1443cd00d'
+  const id = 'cli_a52ffc2e8e3ad00d'
 
   it('get all event info', async () => {
     const result = await app.getEventInfo(id)
     console.log(JSON.stringify(result))
     expect(result).not.toBeUndefined()
   })
+
   it('add event', async () => {
     await app.enableBot(id)
     const events = ['im.message.message_read_v1', 'im.message.receive_v1', '20']
@@ -220,7 +260,7 @@ describe('feishu app plus', async () => {
     expect(result).not.toBeUndefined()
   })
   it('del latest 2 app', async () => {
-    const result = await appPlus.delLatestNApp(4)
+    const result = await appPlus.delLatestNApp(10)
     expect(result).not.toBeUndefined()
   })
 })

@@ -66,7 +66,7 @@ export class DingtalkConfigManager {
   }
 
   getDingtalkConfig(): DingtalkConfig {
-    const DingtalkConfig = this.config.get('DingtalkConfig') as DingtalkConfig
+    const DingtalkConfig = this.config.get('dingtalkConfig') as DingtalkConfig
     return DingtalkConfig
   }
 
@@ -90,11 +90,14 @@ export class DingtalkConfigManager {
   private createAConfig(): Configuration {
     const DingtalkConfig = this.getDingtalkConfig()
     if (!DingtalkConfig)
-      throw new Error('No Feishu config')
+      throw new Error('No Dingtalk config')
 
     return new Configuration({
-      session: DingtalkConfig.session as string,
-      lark_oapi_csrf_token: DingtalkConfig.lark_oapi_csrf_token as string,
+      access_token: DingtalkConfig.access_token,
+      account: DingtalkConfig.account,
+      corp_id: DingtalkConfig.corp_id,
+      deviceid: DingtalkConfig.deviceid,
+      _o_a_u: DingtalkConfig._o_a_u,
     })
   }
 

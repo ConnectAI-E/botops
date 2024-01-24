@@ -71,7 +71,7 @@ export class DingtalkConfigManager {
   }
 
   setDingtalkConfig(config: DingtalkConfig) {
-    this.config.set('DingtalkConfig', config)
+    this.config.set('dingtalkConfig', config)
   }
 
   // 格式是否符合要求

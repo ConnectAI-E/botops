@@ -148,9 +148,8 @@ export class Configuration {
 
   async getNickname(): Promise<string> {
     const result = await this.requestBaseApp() as any
-    console.log('result:', result)
-    const nickname = result.data.nick
-    console.log('Nickname:', nickname)
+    const data = JSON.parse(result)
+    const nickname = data.data.nick
     return nickname
   }
 }

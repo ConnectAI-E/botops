@@ -83,8 +83,9 @@ async function reauthorizeDingTalk() {
   const config = DingtalkConfigManager.getInstance()
   const newCookie = await getDingtalkCookies() as any
   config.setDingtalkConfig(newCookie)
-  await config.updateNickname()
-  spinner.succeed(`🚀Successfully reauthorized DingTalk! Welcome, ${config.nickname}!`)
+  console.log(newCookie)
+  // await config.updateNickname()
+  spinner.succeed(`🚀Successfully reauthorized DingTalk! Welcome, ${newCookie}!`)
   spinner.stop()
   process.exit(0)
 }

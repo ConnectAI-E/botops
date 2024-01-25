@@ -132,4 +132,25 @@ export class Configuration {
 
     return await this.fetchRequestText(url, options)
   }
+
+  async requestBaseApp() {
+    const url = `https://open-dev.dingtalk.com/baseInfo?access_token=${this.access_token}`
+    const options = {
+      method: 'GET',
+      mode: 'cors',
+      credentials: 'include',
+      referrerPolicy: 'no-referrer',
+      headers: this.headers,
+    }
+    // console.log(options)
+    return await this.fetchRequestText(url, options)
+  }
+
+  async getNickname(): Promise<string> {
+    const result = await this.requestBaseApp() as any
+    // console.log('getNickname:', result)
+    const nickname = result.data.nick
+    console.log('Nickname:', nickname)
+    return nickname
+  }
 }

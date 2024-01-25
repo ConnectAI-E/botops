@@ -292,7 +292,6 @@ export class DeployConfig {
     const find = callback.find(item => item.hook === 'appid_changed')
     if (!find)
       return
-    // replace APPID / APPSECRET
     return find.url
   }
 

@@ -1,5 +1,6 @@
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-expect-error
+
 import Conf from 'conf'
 
 // @ts-expect-error  This is an expected error because no type definition for this package

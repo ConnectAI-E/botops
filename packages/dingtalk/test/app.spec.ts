@@ -12,11 +12,11 @@ import { OpenApp } from '../src/app'
 // };
 
 const testConfig: DingTalkLoginCookies = {
-  account: 'oauth_k1%3AhEHKdGoXga3hCRUyIgUpJdKfe%2BGSGQ%2B4avWLMFfyjrzPkvGXyrWg%2BGphuNDJVDpmi%2BMUXhD3Hfm3p0HqiE2W8%2FjFBdPDvctNnX8QaW7Kuuw%3D',
-  deviceid: 'e3b2444d87f441f38b2be8798be2ae30',
-  corp_id: 'ding97db296bbb01fab5f5bf40eda33b7ba0',
-  access_token: 'af800b35-21ef-4aaf-855a-ac575ddb0cb3',
-  _o_a_u: 'eyJfbyI6Im9kNjNjOGExMDJlOTQ5YjdhOTIxNjBhOWM0MDJlNTljOWEiLCJfYSI6ZmFsc2UsIl9zIjoiNjEwMzM1MDMyNzI2MTcyNjUzIiwiX2MiOmZhbHNlLCJfdSI6Im9kODJmMGUyNjMwYzNlODVhYzMwZGQ3YTNjMTFkYzZhOGUiLCJfZSI6Im9kMWU0OGRiYjJjYTE0NWIwMGRjMTc1ZmU0Y2ZkNTc1N2IifQ==',
+  access_token: 'ab044916-d8a8-4c21-a9e3-5e12bdacf363',
+  corp_id: 'ding1d838a962d209041f2c783f7214b6d69',
+  account: 'oauth_k1%3AFbYfld825FwxQJQTh6rf9q7kASK6Y5GzdhJBbfVrfABgptNEsYrXfYjz3yWcdNrRNY20GPycWZMnuefcn3KIAAMHwWP9tD3C6Yx8KjDhpAA%3D',
+  deviceid: '46b5bc9d2bd24cba9ebfca37a0fe9933',
+  _o_a_u: 'eyJfbyI6Im9kNjM0OTExNDRhNjE5ODQ3Mjg2ZDdkY2RjZDc4NWM1NWQiLCJfYSI6ZmFsc2UsIl9zIjoiMDExNjU1NjY0OTYxMzc4NzIzMDciLCJfYyI6ZmFsc2UsIl91Ijoib2Q2Y2VhOGExMTNmMGU4MmVlNjlmZGM2NWI1ODY2MDQ5NiIsIl9lIjoib2RiYmY0MmJmYzY3YmI3MjMzZjE3Y2IxODUzOWM0YmUyZiJ9',
 }
 const testAppId = 'ba7b4d3a-8014-4e74-88f7-2726f580823c'
 const config = new Configuration(testConfig)
@@ -29,6 +29,7 @@ describe('app', async () => {
     console.log(result)
     expect(result).not.toBeUndefined()
   })
+
   // get app base info
   it('should get app base info', async () => {
     const result = await app.requestAppBaseInfo(testAppId)

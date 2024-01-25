@@ -21,6 +21,13 @@ describe('configuration', () => {
     console.log(appList)
     expect(appList).not.toBeUndefined()
   })
+
+  // get nick name
+  it('should get nick name', async () => {
+    const result = await aClient.getNickname()
+    console.log(result)
+    expect(result).not.toBeUndefined()
+  })
   // it("should can get avatar", async () => {
   //   const userInfo = await aClient.getUserInfo();
   //   console.log(userInfo);

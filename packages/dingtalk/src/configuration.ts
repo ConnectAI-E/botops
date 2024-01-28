@@ -36,7 +36,7 @@ export class Configuration {
 
   async fetchRequestText(url, options) {
     const response = await fetch(url, options)
-    console.log(response.headers)
+    // console.log(response.headers)
     if (!response.ok)
       throw new Error(`Network response was not ok: ${response.status} - ${response.statusText}`)
 
@@ -128,7 +128,7 @@ export class Configuration {
       referrerPolicy: 'no-referrer',
       headers: this.headers,
     }
-    console.log(options)
+    // console.log(options)
 
     return await this.fetchRequestText(url, options)
   }
@@ -151,5 +151,18 @@ export class Configuration {
     const data = JSON.parse(result)
     const nickname = data.data.nick
     return nickname
+  }
+
+  async isAuthed() {
+    let nickName: string | null
+    try {
+      nickName = await this.getNickname()
+    }
+    catch (e) {
+      // console.log(e)
+      return false
+    }
+    // console.log(nickName);
+    return nickName !== null
   }
 }

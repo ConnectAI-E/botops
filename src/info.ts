@@ -2,6 +2,7 @@
 import type { Argv } from 'yargs'
 import ora from 'ora'
 import { FeishuConfigManager, fakeFeishuConfig } from './config'
+import { DingtalkConfigManager } from './configDingtalk'
 
 export const command = 'info'
 export const describe = 'View current authorization status '
@@ -16,6 +17,7 @@ export function builder(yargs: Argv) {
     .option('dingtalk', {
       describe: 'only show DingTalk',
       type: 'boolean',
+      alias: 'd',
     })
     .option('detail ', {
       describe: 'show detail',
@@ -27,9 +29,10 @@ export async function handler(argv: any) {
   if (argv.feishu)
     await checkFeishuAuth(argv.detail)
   else if (argv.dingtalk)
-    console.log('Reauthorizing DingTalk')
+    await checkDingtalkAuth(argv.detail)
   else
     await checkFeishuAuth(argv.detail)
+  await checkDingtalkAuth(argv.detail)
 }
 
 function reauthorizeFeishu() {
@@ -53,4 +56,19 @@ async function checkFeishuAuth(detial = false) {
     spinner.succeed(`Hello ${config.nickname}, you have been granted authorization in Feishu.`)
   else
     spinner.fail('You are not authorized in feishu')
+}
+
+async function checkDingtalkAuth(detial = false) {
+  const spinner = ora().start()
+  const config = DingtalkConfigManager.getInstance()
+  spinner.info('checking auth status')
+  const success = await config.isAuth()
+  if (detial) {
+    console.log('dingtalk detail config :')
+    console.log(config.getDingtalkConfig())
+  }
+  if (success)
+    spinner.succeed(`Hello ${config.nickname}, you have been granted authorization in Dingtalk.`)
+  else
+    spinner.fail('You are not authorized in Dingtalk')
 }

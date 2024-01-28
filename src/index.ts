@@ -4,6 +4,7 @@ import * as authCommand from './auth'
 import * as infoCommand from './info'
 import * as deployCommand from './deploy'
 import * as showCommand from './show'
+// import * as deployDingTalkCommand from './deployDingTalk'
 
 const args = yargs(hideBin(process.argv))
   .scriptName('botops')
@@ -11,6 +12,7 @@ const args = yargs(hideBin(process.argv))
   .command(infoCommand)
   .command(authCommand)
   .command(deployCommand)
+  // .command(deployDingTalkCommand)
   .command(showCommand)
   .demandCommand(1, 'Please provide a command')
   .usage('$0 [command] [options]')

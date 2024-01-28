@@ -83,7 +83,6 @@ async function reauthorizeDingTalk() {
   const config = DingtalkConfigManager.getInstance()
   const newCookie = await getDingtalkCookies() as any
   config.setDingtalkConfig(newCookie)
-  console.log(newCookie)
   await config.updateNickname()
   spinner.succeed(`🚀Successfully reauthorized DingTalk! Welcome, ${config.nickname}!`)
   spinner.stop()
@@ -129,5 +128,7 @@ async function resetAllAuth() {
   const spinner = ora('Start reset all platform auth').start()
   const config = FeishuConfigManager.getInstance()
   config.setFeishuConfig({})
+  const configDingtalk = DingtalkConfigManager.getInstance()
+  configDingtalk.setDingtalkConfig({})
   spinner.succeed('Reset all platform auth successfully')
 }

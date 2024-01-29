@@ -1,0 +1,12 @@
+{
+  "name": "botops demo",
+  "desc": "somebotops deplo description",
+  "avatar": "https://avatars.githubusercontent.com/u/145313435?s=200&v=4",
+  "platform": "dingtalk",
+  "dingtalkConfig": {
+    "providerAppId": "2865206210",
+    "clientId": "ding54nnn56hohejvjzs",
+    "clientSecret": "mq7QspmO2kK975aB2E2Hb1X5KqXseESbIJIpRmCTJ0-B2VD915sW2BZTrd8vPkZr",
+    "outgoingUrl": "https://connect-ai-e.com/dingding/64cb82968f68d70001861acb/event"
+  }
+}

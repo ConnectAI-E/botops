@@ -14,6 +14,13 @@ export interface FeishuPlatformConfig {
 
 }
 
+export interface DingtalkPlatformConfig {
+  AgentId: string
+  clientId: string
+  clientSecret: string
+  outgoingUrl: string
+}
+
 export interface CallBack {
   hook: string
   url: string
@@ -26,6 +33,7 @@ export interface IDeployConfig {
   platform: string
   callback?: CallBack[]
   feishuConfig: FeishuPlatformConfig
+  dingtalkConfig: DingtalkPlatformConfig
 }
 
 export class DeployConfig {
@@ -53,7 +61,7 @@ export class DeployConfig {
         },
         platform: {
           type: 'string',
-          enum: ['feishu'],
+          enum: ['feishu', 'dingtalk'],
         },
         callback: {
           type: 'array',
@@ -102,6 +110,24 @@ export class DeployConfig {
             },
           },
           required: ['events', 'encryptKey', 'verificationToken', 'scopeIds', 'cardRequestUrl', 'verificationUrl'],
+        },
+        dingtalkConfig: {
+          type: 'object',
+          properties: {
+            AgentId: {
+              type: 'string',
+            },
+            clientId: {
+              type: 'string',
+            },
+            clientSecret: {
+              type: 'string',
+            },
+            outgoingUrl: {
+              type: 'string',
+            },
+          },
+          required: ['AgentId', 'clientId', 'clientSecret', 'outgoingUrl'],
         },
       },
       required: ['name', 'platform'],
@@ -165,7 +191,6 @@ export class DeployConfig {
   async validateConfigByPath(path: string) {
     if (!this.isJson(path))
       return false
-
     const config = await this.loadFileByPath(path)
     // console.log(config)
     if (!config)
@@ -207,6 +232,10 @@ export class DeployConfig {
 
   get botFeishuConfig() {
     return this.config.feishuConfig
+  }
+
+  get botDingtalkConfig() {
+    return this.config.dingtalkConfig
   }
 
   get ifFirstDeploy() {

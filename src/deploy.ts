@@ -42,7 +42,6 @@ export async function handler(argv: any) {
     pathFile = changeArgvToString(argv._[1])
     spin.info(`Loading manifest from ${pathFile}`)
   }
-
   const aDeployConfig = new DeployConfig()
   if (!await aDeployConfig.validateConfigByPath(pathFile)) {
     spin.fail('Manifest file of deploy is not valid.')
@@ -51,33 +50,52 @@ export async function handler(argv: any) {
   }
   await aDeployConfig.loadConfig(pathFile)
   spin.succeed('Manifest file loaded successfully.')
-  const aLocalConfig = FeishuConfigManager.getInstance()
-  // 先检查是否登录授权
-  const isLogin = await aLocalConfig.isAuth()
-  if (!isLogin) {
-    const answer = await confirm({ message: 'Looks like you\'re not logged in to Feishu. Would you like to log in now?' })
-    if (!answer) {
-      redIt('Please log in to Feishu first')
-      process.exit(1)
-    }
-    const newCookie = await getFeishuCookies() as any
-    aLocalConfig.setFeishuConfig(newCookie)
-    await aLocalConfig.updateNickname()
-    greenIt(`🚀Successfully reauthorized Feishu! Welcome, ${aLocalConfig.nickname}!`)
-  }
-  const appBuilder = aLocalConfig.appBuilder
-  await appBuilder.init()
 
-  let appId = ''
-  // 配置文件是否含有appID
-  if (aDeployConfig.ifFirstDeploy) {
-    // 检测是否有重名的机器人
-    const oldAppId = await appBuilder.checkAppName(aDeployConfig.botName)
-    if (oldAppId) {
-      const answer = await confirm({ message: `A bot with the name '${aDeployConfig.botName}' has been detected. Do you wish to overwrite it?` })
-      if (answer) {
-        greenIt(`即将覆盖飞书机器人 ${aDeployConfig.botName}(${oldAppId})`)
-        appId = oldAppId
+  // 根据配置文件中的平台类型执行相应的部署流程
+  if (aDeployConfig.botPlatform === 'dingtalk') {
+    await deployToDingTalk(aDeployConfig)
+  }
+  else if (aDeployConfig.botPlatform === 'feishu') {
+    await deployToFeishu(aDeployConfig)
+  }
+  else {
+    spin.fail(`Unsupported platform: ${aDeployConfig.botPlatform}`)
+    spin.clear()
+  }
+
+  async function deployToFeishu(aDeployConfig: DeployConfig) {
+    const aLocalConfig = FeishuConfigManager.getInstance()
+    // 先检查是否登录授权
+    const isLogin = await aLocalConfig.isAuth()
+    if (!isLogin) {
+      const answer = await confirm({ message: 'Looks like you\'re not logged in to Feishu. Would you like to log in now?' })
+      if (!answer) {
+        redIt('Please log in to Feishu first')
+        process.exit(1)
+      }
+      const newCookie = await getFeishuCookies() as any
+      aLocalConfig.setFeishuConfig(newCookie)
+      await aLocalConfig.updateNickname()
+      greenIt(`🚀Successfully reauthorized Feishu! Welcome, ${aLocalConfig.nickname}!`)
+    }
+    const appBuilder = aLocalConfig.appBuilder
+    await appBuilder.init()
+
+    let appId = ''
+    // 配置文件是否含有appID
+    if (aDeployConfig.ifFirstDeploy) {
+      // 检测是否有重名的机器人
+      const oldAppId = await appBuilder.checkAppName(aDeployConfig.botName)
+      if (oldAppId) {
+        const answer = await confirm({ message: `A bot with the name '${aDeployConfig.botName}' has been detected. Do you wish to overwrite it?` })
+        if (answer) {
+          greenIt(`即将覆盖飞书机器人 ${aDeployConfig.botName}(${oldAppId})`)
+          appId = oldAppId
+        }
+        else {
+          appId = await appBuilder.newApp(aDeployConfig.botBaseInfo)
+          greenIt(`新的飞书机器人 ${aDeployConfig.botName}(${appId}) 初始化成功`)
+        }
       }
       else {
         appId = await appBuilder.newApp(aDeployConfig.botBaseInfo)
@@ -85,86 +103,85 @@ export async function handler(argv: any) {
       }
     }
     else {
-      appId = await appBuilder.newApp(aDeployConfig.botBaseInfo)
-      greenIt(`新的飞书机器人 ${aDeployConfig.botName}(${appId}) 初始化成功`)
+      appId = aDeployConfig.appId as string
     }
-  }
-  else {
-    appId = aDeployConfig.appId as string
-  }
-  const url = aDeployConfig.getAfterAppIdChangeHookUrl()
-  if (url) {
-    const appSecret = await appBuilder.getAppSecret(appId)
-    await aDeployConfig.hookAfterAppIdChange(url, appId, appSecret)
-  }
-  try {
-    await appBuilder.versionManager.clearUnPublishedVersion(appId)
-  }
-  catch (e) {
-    redIt(`没有对飞书机器人 ${aDeployConfig.botName}(${appId}) 的操作权限`)
-    process.exit(1)
+    const url = aDeployConfig.getAfterAppIdChangeHookUrl()
+    if (url) {
+      const appSecret = await appBuilder.getAppSecret(appId)
+      await aDeployConfig.hookAfterAppIdChange(url, appId, appSecret)
+    }
+    try {
+      await appBuilder.versionManager.clearUnPublishedVersion(appId)
+    }
+    catch (e) {
+      redIt(`没有对飞书机器人 ${aDeployConfig.botName}(${appId}) 的操作权限`)
+      process.exit(1)
+    }
+
+    await appBuilder.changeAppInfo(appId, aDeployConfig.botBaseInfo)
+    greenIt(`即将为飞书机器人 ${aDeployConfig.botName}(${appId}) 部署新版本`)
+
+    const tasks = new Listr([
+      {
+        title: '操作前检查',
+        task: async (ctx, task) => {
+          await appBuilder.versionManager.clearUnPublishedVersion(appId)
+          ctx.appId = appId
+        },
+      },
+
+      {
+        title: '添加事件权限',
+        task: async (ctx, task) => {
+          const appId = ctx.appId
+          await appBuilder.eventManager.addEvent(appId, aDeployConfig.events)
+        },
+      },
+      {
+        title: '添加事件回调',
+        task: async (ctx, task) => {
+          const appId = ctx.appId
+          await appBuilder.eventManager.addEventCallBack(appId, aDeployConfig.eventCallbackUrl)
+        },
+      },
+      {
+        title: '启用机器人',
+        task: async (ctx) => {
+          const appId = ctx.appId
+          await appBuilder.enableBot(appId)
+        },
+      },
+      {
+        title: '添加权限范围',
+        task: async (ctx) => {
+          const appId = ctx.appId
+          await appBuilder.addScope(appId, aDeployConfig.scopeIds)
+        },
+      },
+      {
+        title: '添加机器人回调',
+        task: async (ctx) => {
+          const appId = ctx.appId
+          await appBuilder.botManager.addBotCallBack(appId, aDeployConfig.cardRequestUrl)
+        },
+      },
+      {
+        title: '创建并发布下一个版本',
+        task: async (ctx) => {
+          const appId = ctx.appId
+          await appBuilder.versionManager.createAndPublishNextVersion(appId)
+        },
+      },
+    ])
+    await tasks.run()
+    greenIt((`🚀 飞书机器人 ${aDeployConfig.botName}(${appId}) 部署成功`))
+    process.exit(0)
   }
 
-  await appBuilder.changeAppInfo(appId, aDeployConfig.botBaseInfo)
-  greenIt(`即将为飞书机器人 ${aDeployConfig.botName}(${appId}) 部署新版本`)
-
-  const tasks = new Listr([
-    {
-      title: '操作前检查',
-      task: async (ctx, task) => {
-        await appBuilder.versionManager.clearUnPublishedVersion(appId)
-        ctx.appId = appId
-      },
-    },
-
-    {
-      title: '添加事件权限',
-      task: async (ctx, task) => {
-        const appId = ctx.appId
-        await appBuilder.eventManager.addEvent(appId, aDeployConfig.events)
-      },
-    },
-    {
-      title: '添加事件回调',
-      task: async (ctx, task) => {
-        const appId = ctx.appId
-        await appBuilder.eventManager.addEventCallBack(appId, aDeployConfig.eventCallbackUrl)
-      },
-    },
-    {
-      title: '启用机器人',
-      task: async (ctx) => {
-        const appId = ctx.appId
-        await appBuilder.enableBot(appId)
-      },
-    },
-    {
-      title: '添加权限范围',
-      task: async (ctx) => {
-        const appId = ctx.appId
-        await appBuilder.addScope(appId, aDeployConfig.scopeIds)
-      },
-    },
-    {
-      title: '添加机器人回调',
-      task: async (ctx) => {
-        const appId = ctx.appId
-        await appBuilder.botManager.addBotCallBack(appId, aDeployConfig.cardRequestUrl)
-      },
-    },
-    {
-      title: '创建并发布下一个版本',
-      task: async (ctx) => {
-        const appId = ctx.appId
-        await appBuilder.versionManager.createAndPublishNextVersion(appId)
-      },
-    },
-  ])
-  await tasks.run()
-  greenIt((`🚀 飞书机器人 ${aDeployConfig.botName}(${appId}) 部署成功`))
-  process.exit(0)
+  async function deployToDingTalk(aDeployConfig: DeployConfig) {
+    console.log('Deploy to DingTalk')
+  }
 }
-
 function readClipboard() {
   return clipboard.readSync()
 }

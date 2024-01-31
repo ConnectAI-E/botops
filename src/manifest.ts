@@ -14,6 +14,13 @@ export interface FeishuPlatformConfig {
 
 }
 
+export interface DingtalkPlatformConfig {
+  AgentId: string
+  clientId: string
+  clientSecret: string
+  outgoingUrl: string
+}
+
 export interface CallBack {
   hook: string
   url: string
@@ -26,6 +33,7 @@ export interface IDeployConfig {
   platform: string
   callback?: CallBack[]
   feishuConfig: FeishuPlatformConfig
+  dingtalkConfig: DingtalkPlatformConfig
 }
 
 export class DeployConfig {
@@ -53,7 +61,7 @@ export class DeployConfig {
         },
         platform: {
           type: 'string',
-          enum: ['feishu'],
+          enum: ['feishu', 'dingtalk'],
         },
         callback: {
           type: 'array',
@@ -102,6 +110,24 @@ export class DeployConfig {
             },
           },
           required: ['events', 'encryptKey', 'verificationToken', 'scopeIds', 'cardRequestUrl', 'verificationUrl'],
+        },
+        dingtalkConfig: {
+          type: 'object',
+          properties: {
+            AgentId: {
+              type: 'string',
+            },
+            clientId: {
+              type: 'string',
+            },
+            clientSecret: {
+              type: 'string',
+            },
+            outgoingUrl: {
+              type: 'string',
+            },
+          },
+          required: ['AgentId', 'clientId', 'clientSecret', 'outgoingUrl'],
         },
       },
       required: ['name', 'platform'],
@@ -163,11 +189,11 @@ export class DeployConfig {
 
   // 检验配置文件的schema是否符合
   async validateConfigByPath(path: string) {
+    console.log(path);
     if (!this.isJson(path))
       return false
-
     const config = await this.loadFileByPath(path)
-    // console.log(config)
+    console.log(config)
     if (!config)
       return false
     return this.validateConfig(JSON.parse(config))
@@ -189,6 +215,22 @@ export class DeployConfig {
     }
   }
 
+  get dingtalkBaseInfo() {
+    return {
+      appName: this.config.name,
+      appDesc: this.config.desc,
+    }
+  }
+
+  get dingtalkBotInfo(){
+    return {
+      name: this.botName,
+      brief: this.botDesc,
+      description: this.botDesc,
+      outgoingUrl: this.config.dingtalkConfig.outgoingUrl,
+    }
+  }
+
   get botName() {
     return this.config.name
   }
@@ -207,6 +249,10 @@ export class DeployConfig {
 
   get botFeishuConfig() {
     return this.config.feishuConfig
+  }
+
+  get botDingtalkConfig() {
+    return this.config.dingtalkConfig
   }
 
   get ifFirstDeploy() {
@@ -292,7 +338,6 @@ export class DeployConfig {
     const find = callback.find(item => item.hook === 'appid_changed')
     if (!find)
       return
-    // replace APPID / APPSECRET
     return find.url
   }
 

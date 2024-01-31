@@ -3,10 +3,11 @@ import { describe, expect, it } from 'vitest'
 import { Configuration, type DingTalkLoginCookies } from '../src/configuration'
 
 const testConfig = {
-  account: 'oauth_k1%3AYzUIiVA9E1SZc494rQkWQtHTxlsVfBKiyQWa20mx86AflvctWbOt%2FNZ%2FSqQiADEnF3A6rS76YidRK6KoGLg5L2u3ahSLWDPpBm%2FGyPnaDfg%3D',
-  deviceid: '0652ac07a6e74f46a350000307b88533',
-  corp_id: 'ding1d838a962d209041f2c783f7214b6d69',
-  _o_a_u: 'eyJfbyI6Im9kNjM0OTExNDRhNjE5ODQ3MjJkNDE0N2U1MTk0YTNjNzMiLCJfYSI6ZmFsc2UsIl9zIjoiMDExNjU1NjY0OTYxMzc4NzIzMDciLCJfYyI6ZmFsc2UsIl91Ijoib2Q2Y2VhOGExMTNmMGU4MmVlMzc3Y2MwNjkzZTk3ZWFkZiIsIl9lIjoib2QyMjhhMzMxYzRiOTFkZjJjYThiMmZhNjIzNjM4NGVhMiJ9',
+  access_token: '3135dfa4-7381-4a09-aa83-9b1500ca7f80',
+  corp_id: 'ding97db296bbb01fab5f5bf40eda33b7ba0',
+  account: 'oauth_k1%3AfDrzMqWIE0yw6vb3InAAInpzLQDwKx82xT9mhaEk2xOJXV%2FlJrHczH0Oo%2FXO0WBkLpr%2FlwuiegWY1mR%2BvhoTrGu3ahSLWDPpBm%2FGyPnaDfg%3D',
+  deviceid: '89e8d6de7f984393a75e59a88546f86e',
+  _o_a_u: 'eyJfbyI6Im9kNjNjOGExMDJlOTQ5YjdhOWRlZTk4ZGRmZGQ1NmVhNWEiLCJfYSI6ZmFsc2UsIl9zIjoiNjEwMzM1MDMyNzI2MTcyNjUzIiwiX2MiOmZhbHNlLCJfdSI6Im9kODJmMGUyNjMwYzNlODVhY2JlMzA2YjA5ODUzMDRhYjciLCJfZSI6Im9kZGM2MGQxZDA0YWI1Yzc5NDgwNjIyZWQ0YWQ2NmMwMGUifQ==',
 }
 describe('configuration', () => {
   const aClient = new Configuration(testConfig as DingTalkLoginCookies)

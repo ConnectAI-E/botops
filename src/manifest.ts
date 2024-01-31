@@ -189,10 +189,11 @@ export class DeployConfig {
 
   // 检验配置文件的schema是否符合
   async validateConfigByPath(path: string) {
+    console.log(path);
     if (!this.isJson(path))
       return false
     const config = await this.loadFileByPath(path)
-    // console.log(config)
+    console.log(config)
     if (!config)
       return false
     return this.validateConfig(JSON.parse(config))
@@ -211,6 +212,22 @@ export class DeployConfig {
       name: this.config.name,
       desc: this.config.desc,
       avatar: this.config.avatar,
+    }
+  }
+
+  get dingtalkBaseInfo() {
+    return {
+      appName: this.config.name,
+      appDesc: this.config.desc,
+    }
+  }
+
+  get dingtalkBotInfo(){
+    return {
+      name: this.botName,
+      brief: this.botDesc,
+      description: this.botDesc,
+      outgoingUrl: this.config.dingtalkConfig.outgoingUrl,
     }
   }
 

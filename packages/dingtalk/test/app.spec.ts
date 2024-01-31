@@ -12,13 +12,13 @@ import { OpenApp } from '../src/app'
 // };
 
 const testConfig: DingTalkLoginCookies = {
-  access_token: 'ab044916-d8a8-4c21-a9e3-5e12bdacf363',
-  corp_id: 'ding1d838a962d209041f2c783f7214b6d69',
-  account: 'oauth_k1%3AFbYfld825FwxQJQTh6rf9q7kASK6Y5GzdhJBbfVrfABgptNEsYrXfYjz3yWcdNrRNY20GPycWZMnuefcn3KIAAMHwWP9tD3C6Yx8KjDhpAA%3D',
-  deviceid: '46b5bc9d2bd24cba9ebfca37a0fe9933',
-  _o_a_u: 'eyJfbyI6Im9kNjM0OTExNDRhNjE5ODQ3Mjg2ZDdkY2RjZDc4NWM1NWQiLCJfYSI6ZmFsc2UsIl9zIjoiMDExNjU1NjY0OTYxMzc4NzIzMDciLCJfYyI6ZmFsc2UsIl91Ijoib2Q2Y2VhOGExMTNmMGU4MmVlNjlmZGM2NWI1ODY2MDQ5NiIsIl9lIjoib2RiYmY0MmJmYzY3YmI3MjMzZjE3Y2IxODUzOWM0YmUyZiJ9',
+  _o_a_u: 'eyJfbyI6Im9kNjNjOGExMDJlOTQ5YjdhOWQ3ZDg5ZGQ1NmNlNjY1OTgiLCJfYSI6ZmFsc2UsIl9zIjoiNjEwMzM1MDMyNzI2MTcyNjUzIiwiX2MiOmZhbHNlLCJfdSI6Im9kODJmMGUyNjMwYzNlODVhYzYzZGM1NDUxMzE3Njg3N2MiLCJfZSI6Im9kODMxOGRjMmViMTlhZTg5MDc3MmVjMjhkMjg4NTMxYmQifQ==',
+  corp_id: 'ding97db296bbb01fab5f5bf40eda33b7ba0',
+  access_token: 'ec9c585a-d0e5-44ed-b49f-53155c6a2efd',
+  deviceid: '42f45a0c17084b10af73493f6dcc0a60',
+  account: 'oauth_k1%3AJmSQ3R7TtYsa%2FmqLLcrqeEX%2BIwHzPnVKnQbmIHhuxPk3IkfTqxeTDoZRCx9bzSWUV6RP%2Br37Hcmy54GVmhhkjAMHwWP9tD3C6Yx8KjDhpAA%3D'
 }
-const testAppId = 'ba7b4d3a-8014-4e74-88f7-2726f580823c'
+const testAppId = '96855637-b01f-4780-b939-c0dd8309ab2b'
 const config = new Configuration(testConfig)
 
 const app = new OpenApp(config)
@@ -73,7 +73,7 @@ describe('app', async () => {
 
   it('should new app with avatar', async () => {
     const result = await app.newApp({
-      appName: 'botzzz',
+      appName: 'DINGapp',
       appDesc: 'a bot desc',
       appType: 2,
       iconUrl: 'https://s1-imfile.feishucdn.com/static-resource/v1/v2_2514eb9a-de2f-41cd-89b4-274940456f3g',
@@ -81,7 +81,7 @@ describe('app', async () => {
     expect(result).not.toBeUndefined()
   })
   it('should delete app', async () => {
-    const result = await app.deleteApp('85c1c926-5a74-4504-bdb4-329f47ffc7fd')
+    const result = await app.deleteApp(testAppId)
     console.log(JSON.stringify(result))
     expect(result).not.toBeUndefined()
   })
@@ -132,8 +132,8 @@ describe('app', async () => {
   // 修改机器人的配置并发布
   it('should change bot config', async () => {
     const result = await app.changeBotConfig(testAppId, {
-      name: '修改后test777',
-      brief: '修改后的简介111',
+      name: '修改后name',
+      brief: '修改后的简介',
       description: '修改后---机器人55555',
       outgoingUrl: 'https://connect-ai-e.com/dingding/658147f7631be800019d295f/event',
     })
@@ -164,7 +164,7 @@ describe('app', async () => {
     expect(result).not.toBeUndefined()
   })
 
-  // 创建并保存版本
+  // 创建并发布版本
   it('should publish app', async () => {
     const result = await app.saveAndPublishApp(testAppId)
     expect(result).not.toBeUndefined()

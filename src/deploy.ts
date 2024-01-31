@@ -10,6 +10,7 @@ import { getFeishuCookies } from 'botops-feishu'
 import { changeArgvToString, greenIt, redIt } from './utils'
 import { DeployConfig } from './manifest'
 import { FeishuConfigManager } from './config'
+import { DingtalkConfigManager } from './configDingtalk'
 
 export const command = 'deploy'
 export const describe = 'Deploy bot to specific bot platform, support local file or url'
@@ -31,6 +32,7 @@ export function builder(yargs: Argv) {
 const DEFAULT_MANIFEST_FILE = 'botops.json'
 
 export async function handler(argv: any) {
+  console.error(123)
   let pathFile = ''
   const spin = ora('Loading manifest file...').start()
   if (argv._.length === 1) {
@@ -43,6 +45,7 @@ export async function handler(argv: any) {
     spin.info(`Loading manifest from ${pathFile}`)
   }
   const aDeployConfig = new DeployConfig()
+  console.log(3232)
   if (!await aDeployConfig.validateConfigByPath(pathFile)) {
     spin.fail('Manifest file of deploy is not valid.')
     spin.clear()
@@ -179,7 +182,41 @@ export async function handler(argv: any) {
   }
 
   async function deployToDingTalk(aDeployConfig: DeployConfig) {
-    console.log('Deploy to DingTalk')
+    greenIt('Deploy to DingTalk...')
+    const aLocalConfig = DingtalkConfigManager.getInstance()
+    const appBuilder = aLocalConfig.appBuilder
+    await appBuilder.init()
+
+    let appId = ''
+    const {data} = await appBuilder.newApp(aDeployConfig.dingtalkBaseInfo)
+    appId = data.unifiedAppId
+
+    const tasks = new Listr([
+      {
+        title: '启用机器人',
+        task: async (ctx, task) => {
+          ctx.appId = appId
+          await appBuilder.enableBot(appId)
+        },
+      },
+      {
+        title: '配置机器人',
+        task: async (ctx, task) => {
+          ctx.appId = appId
+          await appBuilder.newBot(appId, aDeployConfig.dingtalkBotInfo)
+        },
+      },
+      {
+        title: '创建并发布版本',
+        task: async (ctx, task) => {
+          ctx.appId = appId
+          await appBuilder.saveAndPublishApp(appId)
+        },
+      },
+    ])
+    await tasks.run()
+    greenIt((`机器人 ${aDeployConfig.botName}(${appId}) 部署成功`))
+    process.exit(0)
   }
 }
 function readClipboard() {

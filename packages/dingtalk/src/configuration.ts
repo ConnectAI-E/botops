@@ -150,6 +150,7 @@ export class Configuration {
     const result = await this.requestBaseApp() as any
     const data = JSON.parse(result)
     const nickname = data.data.nick
+    console.log(nickname)
     return nickname
   }
 

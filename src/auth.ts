@@ -6,7 +6,10 @@ import select, { Separator } from '@inquirer/select'
 // @ts-expect-error This is an expected error because no type definition for this package
 import { GetFeishuCookieByStr, getFeishuCookies } from 'botops-feishu'
 import confirm from '@inquirer/confirm'
+import { getDingtalkCookies } from '../packages/dingtalk/src/auth'
 import { FeishuConfigManager } from './config'
+import { DingtalkConfigManager } from './configDingtalk'
+
 import { redIt } from './utils'
 
 export const command = 'auth'
@@ -76,7 +79,14 @@ export async function handler(argv: any) {
 }
 
 async function reauthorizeDingTalk() {
-  redIt('DingTalk is not supported yet')
+  const spinner = ora('Reauthorizing DingTalk By Website').start()
+  const config = DingtalkConfigManager.getInstance()
+  const newCookie = await getDingtalkCookies() as any
+  config.setDingtalkConfig(newCookie)
+  await config.updateNickname()
+  spinner.succeed(`🚀Successfully reauthorized DingTalk! Welcome, ${config.nickname}!`)
+  spinner.stop()
+  process.exit(0)
 }
 
 async function reauthorizeFeishu() {
@@ -118,5 +128,7 @@ async function resetAllAuth() {
   const spinner = ora('Start reset all platform auth').start()
   const config = FeishuConfigManager.getInstance()
   config.setFeishuConfig({})
+  const configDingtalk = DingtalkConfigManager.getInstance()
+  configDingtalk.setDingtalkConfig({})
   spinner.succeed('Reset all platform auth successfully')
 }

@@ -1,7 +1,7 @@
 {
   "name": "botops",
   "type": "module",
-  "version": "0.0.11",
+  "version": "0.0.12",
   "packageManager": "pnpm@8.6.0",
   "description": "📦A modern cli tool that deploy chatbot fast,supporting Feishu, DingTalk, Discord, and Slack.",
   "author": "river <laolei@forkway.cn>",
@@ -83,7 +83,7 @@
     "typescript": "^5.0.4",
     "unbuild": "^1.2.1",
     "vite": "^4.3.9",
-    "vitest": "^0.31.3"
+    "vitest": "^1.6.0"
   },
   "simple-git-hooks": {
     "pre-commit": "pnpm lint-staged"

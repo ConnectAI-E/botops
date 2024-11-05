@@ -351,7 +351,7 @@ class BotManager {
     return result.data
   }
 
-  async updateBotCallBackV2(appId: string, callbacks: string[], operation: 'add' | 'del') {
+  async updateBotCallBackV2(appId: string, callbacks: string[], operation: 'add' | 'del' = 'add') {
     // callbacks: ["card.action.trigger", "card.action.trigger_v1", "url.preview.get", "profile.view.get"]
     let result
     try {

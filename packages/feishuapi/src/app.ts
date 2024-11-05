@@ -337,6 +337,35 @@ class BotManager {
 
     return result.data
   }
+
+  async addBotCallBackV2(appId: string, url: string) {
+    let result
+    try {
+      result = await this.cfg.aPostRequest(`developers/v1/callback/update_url/${appId}`, {
+        verificationUrl: url,
+      })
+    }
+    catch (e: any) {
+      console.log(e.response.data)
+    }
+    return result.data
+  }
+
+  async updateBotCallBackV2(appId: string, callbacks: string[], operation: 'add' | 'del' = 'add') {
+    // callbacks: ["card.action.trigger", "card.action.trigger_v1", "url.preview.get", "profile.view.get"]
+    let result
+    try {
+      result = await this.cfg.aPostRequest(`developers/v1/callback/update/${appId}`, {
+        callbackMode: 1,
+        callbacks,
+        operation,
+      })
+    }
+    catch (e: any) {
+      console.log(e.response.data)
+    }
+    return result.data
+  }
 }
 
 export interface versionMeta {

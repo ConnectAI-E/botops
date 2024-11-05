@@ -5,8 +5,8 @@ import type { AppInfo, EventUrlInfo } from '../src/app'
 import { FeishuAppPlus, OpenApp } from '../src/app'
 
 const testConfig: FeishuLoginCookies = {
-  lark_oapi_csrf_token: 'iWlO+bXQoO+StV+YXqROtR+IFnmSckEYFQdLCaynZgI=',
-  session: 'XN0YXJ0-02asc1af-0e16-4dbe-97a5-c192d4b72016-WVuZA',
+  lark_oapi_csrf_token: '',
+  session: '',
 }
 
 const config = new Configuration(testConfig)
@@ -138,7 +138,7 @@ describe('scoop', async () => {
 })
 describe('bot', async () => {
   await app.init()
-  const id = 'cli_a52ca0ba25b2100d'
+  const id = 'cli_a55e2240aeb85013'
   it('enable bot', async () => {
     const result = await app.botManager.enableBot(id)
     console.log(JSON.stringify(result))
@@ -180,6 +180,18 @@ describe('bot', async () => {
     // https://open.feishu.cn/developers/v1/robot/check_url/cli_a416b219bd3a100e
     const verificationUrl = 'https://ai-feishu.forkway.cn/api/callback/lark/65/card'
     const result = await app.botManager.addBotCallBack(id, verificationUrl)
+    console.log(JSON.stringify(result))
+    expect(result).not.toBeUndefined()
+  })
+  it('add BotCallBack v2', async () => {
+    const verificationUrl = ''
+    const result = await app.botManager.addBotCallBackV2(id, verificationUrl)
+    console.log(JSON.stringify(result))
+    expect(result).not.toBeUndefined()
+  })
+  it('update BotCallBack v2', async () => {
+    const callbacks = ['card.action.trigger']
+    const result = await app.botManager.updateBotCallBackV2(id, callbacks)
     console.log(JSON.stringify(result))
     expect(result).not.toBeUndefined()
   })

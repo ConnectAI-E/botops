@@ -5,6 +5,7 @@ import colorize from 'json-colorizer'
 
 export interface FeishuPlatformConfig {
   appId?: string
+  appSecret?: string
   events: string[]
   encryptKey: string
   verificationToken: string
@@ -80,6 +81,9 @@ export class DeployConfig {
           type: 'object',
           properties: {
             appId: {
+              type: 'string',
+            },
+            appSecret: {
               type: 'string',
             },
             b2cShareSuggest: {

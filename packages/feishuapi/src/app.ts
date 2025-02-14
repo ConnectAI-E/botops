@@ -215,6 +215,7 @@ export class OpenApp {
     const events = eventInfos.events
     const b2cShareStatus = (await this.getB2CShareStatus(appId)).b2cShareSuggest
     return {
+      appId,
       appSecret,
       b2cShareStatus,
       events,

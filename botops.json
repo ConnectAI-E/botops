@@ -1,9 +1,11 @@
 {
-  "name": "botops demo 2",
-  "desc": "somebotops deplo description",
+  "name": "botops demo 3",
+  "desc": "somebotops deploy",
   "avatar": "https://avatars.githubusercontent.com/u/145313435?s=200&v=4",
+  "help_use": "https://s1-imfile.com/",
   "platform": "feishu",
   "feishuConfig": {
+    "appId": "cli_a72442e6913a500d",
     "events": [
       "im.message.message_read_v1",
       "im.message.receive_v1"

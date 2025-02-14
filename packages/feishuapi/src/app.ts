@@ -5,6 +5,7 @@ export interface AppInfo {
   name: string
   desc?: string
   avatar?: string
+  help_use?: string
 }
 
 export class OpenApp {
@@ -105,7 +106,7 @@ export class OpenApp {
   }
 
   async formatNewAppBody(appInfo: AppInfo) {
-    let { avatar, desc, name } = appInfo
+    let { avatar, desc, name, help_use } = appInfo
     if (!avatar) {
       // 需要获取上传之后的头像链接
       const defaultAvatar = 'https://s1-imfile.feishucdn.com/static-resource/v1/v2_8d04e97a-bc0d-4949-b858-20a260064b4g'
@@ -113,6 +114,8 @@ export class OpenApp {
     }
     if (!desc)
       desc = ''
+    if (!help_use)
+      help_use = ''
 
     return {
       appSceneType: 0,
@@ -123,11 +126,13 @@ export class OpenApp {
         zh_cn: {
           name,
           description: desc,
+          help_use,
         },
         // 必须要有英文名字，不然会报错 lark
         en_us: {
           name,
           description: desc,
+          help_use,
         },
       },
       primaryLang: 'en_us',

@@ -57,8 +57,9 @@ describe('app', async () => {
     expect(result).not.toBeUndefined()
   })
   it('should change app info', async () => {
-    const result = await app.changeAppInfo('cli_a52fa4f61af4100d', {
+    const result = await app.changeAppInfo('cli_a724568038f9901c', {
       name: 'a botName',
+      help_use: 'https://s1-imfile.feishucdn.com/',
       avatar: 'https://s1-imfile.feishucdn.com/static-resource/v1/v2_2514eb9a-de2f-41cd-89b4-274940456f3g',
     })
     console.log(JSON.stringify(result))
@@ -285,7 +286,7 @@ describe('feishu app plus', async () => {
 })
 describe('feishu version', async () => {
   await app.init()
-  const id = 'cli_a52ca0ba25b2100d'
+  const id = 'cli_a724568038f9901c'
   it(' app versions list', async () => {
     const result = await app.versionManager.getVersionInfo(id)
     console.log(JSON.stringify(result))

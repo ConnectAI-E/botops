@@ -23,6 +23,7 @@ export interface IDeployConfig {
   name: string
   desc: string
   avatar: string
+  help_use?: string
   platform: string
   callback?: CallBack[]
   feishuConfig: FeishuPlatformConfig
@@ -50,6 +51,10 @@ export class DeployConfig {
         },
         avatar: {
           type: 'string',
+        },
+        help_use: {
+          type: 'string',
+          description: 'help use url',
         },
         platform: {
           type: 'string',
@@ -191,11 +196,16 @@ export class DeployConfig {
       name: this.config.name,
       desc: this.config.desc,
       avatar: this.config.avatar,
+      help_use: this.config.help_use,
     }
   }
 
   get botName() {
     return this.config.name
+  }
+
+  get botHelpUse() {
+    return this.config.help_use
   }
 
   get botDesc() {

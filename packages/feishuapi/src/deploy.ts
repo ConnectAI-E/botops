@@ -12,6 +12,7 @@ export interface DeployConfig {
   scopeIds?: string[]
   cardRequestUrl?: string
   verificationUrl?: string
+  b2cShareSuggest?: boolean
 }
 
 export class DeployTool {
@@ -26,6 +27,7 @@ export class DeployTool {
 
   async loadOpenApi(openApi: OpenApp) {
     this.openApi = openApi
+    this.openApi.cfg.deployConfig = this.config
     await this.openApi.init()
   }
 

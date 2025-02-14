@@ -1,4 +1,5 @@
 import fetch from 'node-fetch'
+import type { DeployConfig } from './deploy'
 
 export interface FeishuLoginCookies {
   lark_oapi_csrf_token: string
@@ -18,6 +19,7 @@ export class Configuration {
   _lark_oapi_csrf_token: string
   _csrfToken: string
   baseUrl: string
+  deployConfig?: DeployConfig
 
   constructor(opt: FeishuLoginCookies) {
     this._session = opt.session

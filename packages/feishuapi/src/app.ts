@@ -160,6 +160,15 @@ export class OpenApp {
     }
   }
 
+  async getB2CShareStatus(appId: string) {
+    const result = await this.cfg.aPostRequest(`developers/v1/b2c_share/${appId}`, {})
+    return {
+      b2cShareConfigHint: result.data.b2cShareConfigHint,
+      b2cShareSuggest: result.data.b2cShareSuggest,
+      onlineB2CShareEnable: result.data.onlineB2CShareEnable,
+    }
+  }
+
   //
   // "events": [
   //   "im.message.message_read_v1",
@@ -194,11 +203,15 @@ export class OpenApp {
     const scopeIds = await this.getAvailableScope(appId)
     const cardRequestUrl = await this.botManager.showBotCallBack(appId)
     const eventInfos = await this.eventManager.getEventInfo(appId)
+    const appSecret = await this.getAppSecret(appId)
     const verificationUrl = eventInfos.verificationUrl
     const verificationToken = eventInfos.verificationToken
     const encryptKey = eventInfos.encryptKey
     const events = eventInfos.events
+    const b2cShareStatus = (await this.getB2CShareStatus(appId)).b2cShareSuggest
     return {
+      appSecret,
+      b2cShareStatus,
       events,
       encryptKey,
       verificationToken,
@@ -490,6 +503,7 @@ class VersionManager {
       mobileDefaultAbility: 'bot',
       pcDefaultAbility: 'bot',
       changeLog: 'update',
+      b2cShareSuggest: this.cfg.deployConfig?.b2cShareSuggest ?? false,
       visibleSuggest: {
         departments: [],
         members: [],
@@ -497,6 +511,7 @@ class VersionManager {
         isAll: 1,
       },
     }
+    console.log(data)
     const result = await this.cfg.aPostRequest(`developers/v1/app_version/create/${appId}`, data)
     return result.data.versionId
   }

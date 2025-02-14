@@ -136,6 +136,7 @@ whole manifest file example
 ## Development
 ```bash
 pnpm install
+pnpm -r build
 pnpm start
 ```
 

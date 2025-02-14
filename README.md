@@ -92,6 +92,7 @@ whole manifest file example
   "desc": "botops test demo desc",
   "avatar": "https://avatars.githubusercontent.com/u/145313435?s=200&v=4",
   "platform": "feishu",
+  "help_use": "https://gitmaya.com/feishu/",
    "callback": [
     {
       "hook": "appid_changed",
@@ -99,12 +100,14 @@ whole manifest file example
     }
   ],
   "feishuConfig": {
+    "b2cShareSuggest": true, // 是否启用 B2C 分享
     "events": [
       "im.message.message_read_v1",
       "im.message.receive_v1"
     ],
     "encryptKey": "e-fJKrqNbSz9NqSWL5",
     "verificationToken": "v-Ohw8k6KwVynNmzXX",
+    "webSocketMode": true, // 是否启用 WebSocket 模式 如果启用，则跳过添加事件回调
     "scopeIds": [
       "21001",
       "7",

@@ -4,8 +4,6 @@ import clipboard from 'clipboardy'
 import Listr from 'listr'
 import ora from 'ora'
 import confirm from '@inquirer/confirm'
-
-// @ts-expect-error This is an expected error because no type definition for this package
 import { getFeishuCookies } from 'botops-feishu'
 import { changeArgvToString, greenIt, redIt } from './utils'
 import { DeployConfig } from './manifest'
@@ -156,7 +154,7 @@ export async function handler(argv: any) {
       title: '创建并发布下一个版本',
       task: async (ctx) => {
         const appId = ctx.appId
-        await appBuilder.versionManager.createAndPublishNextVersion(appId)
+        await appBuilder.versionManager.createAndPublishNextVersion(appId, aDeployConfig.config.feishuConfig.b2cShareSuggest)
       },
     },
   ])

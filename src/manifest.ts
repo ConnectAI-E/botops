@@ -11,7 +11,7 @@ export interface FeishuPlatformConfig {
   scopeIds: string[]
   cardRequestUrl: string
   verificationUrl: string
-
+  b2cShareSuggest?: boolean
 }
 
 export interface CallBack {
@@ -75,6 +75,11 @@ export class DeployConfig {
           properties: {
             appId: {
               type: 'string',
+            },
+            b2cShareSuggest: {
+              type: 'boolean',
+              default: false,
+              description: 'Whether to suggest b2c share',
             },
             events: {
               type: 'array',

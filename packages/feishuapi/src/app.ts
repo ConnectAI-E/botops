@@ -437,7 +437,7 @@ class VersionManager {
     return version.versionStatus !== 0 && version.versionStatus !== 1
   }
 
-  async creatNextVersion(appId: string) {
+  async creatNextVersion(appId: string, b2cShareSuggest = false) {
     const ifCanCreate = await this.canCreateNewVersion(appId)
     if (!ifCanCreate) {
       return {
@@ -445,7 +445,7 @@ class VersionManager {
       }
     }
     const newVersion = await this.getNewAppVersion(appId)
-    const versionId = await this.createNewVersion(appId, newVersion)
+    const versionId = await this.createNewVersion(appId, newVersion, b2cShareSuggest)
     return {
       success: true,
       data: versionId,
@@ -496,14 +496,14 @@ class VersionManager {
   //   "changeLog": "update"
   // }
   //   https://open.feishu.cn/developers/v1/app_version/create/cli_a42ef85d81bad00e
-  async createNewVersion(appId: string, appVersion: string): Promise<string> {
+  async createNewVersion(appId: string, appVersion: string, b2cShareSuggest = false): Promise<string> {
     // 其实服务端校验，只要不和上一个一样就行，至于不小于前一个，没有做校验
     const data = {
       appVersion,
       mobileDefaultAbility: 'bot',
       pcDefaultAbility: 'bot',
       changeLog: 'update',
-      b2cShareSuggest: this.cfg.deployConfig?.b2cShareSuggest ?? false,
+      b2cShareSuggest,
       visibleSuggest: {
         departments: [],
         members: [],
@@ -511,7 +511,7 @@ class VersionManager {
         isAll: 1,
       },
     }
-    console.log(data)
+    console.log(b2cShareSuggest, 'b2cShareSuggest')
     const result = await this.cfg.aPostRequest(`developers/v1/app_version/create/${appId}`, data)
     return result.data.versionId
   }
@@ -540,9 +540,9 @@ class VersionManager {
     return result.data
   }
 
-  async createAndPublishNextVersion(appId: string) {
+  async createAndPublishNextVersion(appId: string, b2cShareSuggest = false) {
     await this.clearUnPublishedVersion(appId)
-    const r = await this.creatNextVersion(appId)
+    const r = await this.creatNextVersion(appId, b2cShareSuggest)
     if (!r.success)
       return false
 

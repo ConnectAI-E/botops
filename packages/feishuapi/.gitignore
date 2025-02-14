@@ -9,3 +9,6 @@ lib-cov
 logs
 node_modules
 temp
+.env
+.env.*
+!.env.example

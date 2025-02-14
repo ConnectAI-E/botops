@@ -1,5 +1,5 @@
 {
-  "name": "botops demo",
+  "name": "botops demo 2",
   "desc": "somebotops deplo description",
   "avatar": "https://avatars.githubusercontent.com/u/145313435?s=200&v=4",
   "platform": "feishu",
@@ -10,6 +10,7 @@
     ],
     "encryptKey": "e-fJKrqNbSz9NqSWL5",
     "verificationToken": "v-Ohw8k6KwVynNmzXX",
+    "b2cShareSuggest": true,
     "scopeIds": [
       "21001",
       "7",

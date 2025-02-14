@@ -1,13 +1,20 @@
 import { describe, expect, it } from 'vitest'
+import * as dotenv from 'dotenv'
 import type { FeishuLoginCookies } from '../src/configuration'
 import { Configuration } from '../src/configuration'
 import type { AppInfo, EventUrlInfo } from '../src/app'
 import { FeishuAppPlus, OpenApp } from '../src/app'
 
+// 加载环境变量
+dotenv.config()
+
 const testConfig: FeishuLoginCookies = {
-  lark_oapi_csrf_token: '',
-  session: '',
+  lark_oapi_csrf_token: process.env.FEISHU_CSRF_TOKEN || '',
+  session: process.env.FEISHU_SESSION || '',
 }
+
+if (!process.env.FEISHU_CSRF_TOKEN || !process.env.FEISHU_SESSION)
+  throw new Error('Missing required environment variables. Please check .env file')
 
 const config = new Configuration(testConfig)
 const app = new OpenApp(config)
@@ -278,7 +285,7 @@ describe('feishu app plus', async () => {
 })
 describe('feishu version', async () => {
   await app.init()
-  const id = 'cli_a5c907b6ed3a1013'
+  const id = 'cli_a52ca0ba25b2100d'
   it(' app versions list', async () => {
     const result = await app.versionManager.getVersionInfo(id)
     console.log(JSON.stringify(result))
@@ -301,12 +308,12 @@ describe('feishu version', async () => {
     expect(result).not.toBeUndefined()
   })
   it('create next version', async () => {
-    const result = await app.versionManager.creatNextVersion(id)
+    const result = await app.versionManager.creatNextVersion(id, true)
     console.log(JSON.stringify(result))
     expect(result).not.toBeUndefined()
   })
   it('del version', async () => {
-    const versionNumber = '7252254280937472001'
+    const versionNumber = '7471163124286586884'
     const result = await app.versionManager.delVersion(id, versionNumber)
     console.log(JSON.stringify(result))
     expect(result).not.toBeUndefined()

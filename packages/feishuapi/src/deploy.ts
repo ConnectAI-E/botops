@@ -71,7 +71,7 @@ export class DeployTool {
   }
 
   async publishBot() {
-    await this.openApi.versionManager.createAndPublishNextVersion(this.appid)
+    await this.openApi.versionManager.createAndPublishNextVersion(this.appid, this.rawConfig.b2cShareSuggest)
   }
 
   async deployBot() {

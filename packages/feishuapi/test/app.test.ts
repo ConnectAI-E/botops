@@ -206,7 +206,7 @@ describe('bot', async () => {
 })
 describe('event test', async () => {
   await app.init()
-  const id = 'cli_a52ffc2e8e3ad00d'
+  const id = 'cli_a7271b3315f8100b'
 
   it('get all event info', async () => {
     const result = await app.getEventInfo(id)
@@ -258,6 +258,11 @@ describe('event test', async () => {
   it('add event callback by url', async () => {
     const verificationUrl = 'http://159.75.122.50:9001/webhook/event'
     const result = await app.eventManager.addEventCallBackByUrl(id, verificationUrl)
+    console.log(JSON.stringify(result))
+    expect(result).not.toBeUndefined()
+  })
+  it('enable web socket mode', async () => {
+    const result = await app.eventManager.enableWebSocketMode(id)
     console.log(JSON.stringify(result))
     expect(result).not.toBeUndefined()
   })

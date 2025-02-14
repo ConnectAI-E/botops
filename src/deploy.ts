@@ -123,10 +123,17 @@ export async function handler(argv: any) {
       },
     },
     {
-      title: '添加事件回调',
+      title: '配置事件订阅方式',
       task: async (ctx, task) => {
         const appId = ctx.appId
-        await appBuilder.eventManager.addEventCallBack(appId, aDeployConfig.eventCallbackUrl)
+        if (aDeployConfig.config.feishuConfig.webSocketMode) {
+          await appBuilder.eventManager.enableWebSocketMode(appId)
+          task.title = '已启用 WebSocket 模式'
+        }
+        else {
+          await appBuilder.eventManager.addEventCallBack(appId, aDeployConfig.eventCallbackUrl)
+          task.title = '已配置 HTTP 回调模式'
+        }
       },
     },
     {

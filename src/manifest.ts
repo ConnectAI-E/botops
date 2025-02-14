@@ -12,6 +12,7 @@ export interface FeishuPlatformConfig {
   cardRequestUrl: string
   verificationUrl: string
   b2cShareSuggest?: boolean
+  webSocketMode?: boolean
 }
 
 export interface CallBack {
@@ -86,6 +87,11 @@ export class DeployConfig {
               default: false,
               description: 'Whether to suggest b2c share',
             },
+            webSocketMode: {
+              type: 'boolean',
+              default: false,
+              description: 'Whether to use WebSocket mode',
+            },
             events: {
               type: 'array',
               items: {
@@ -111,7 +117,7 @@ export class DeployConfig {
               type: 'string',
             },
           },
-          required: ['events', 'encryptKey', 'verificationToken', 'scopeIds', 'cardRequestUrl', 'verificationUrl'],
+          required: ['events', 'encryptKey', 'verificationToken', 'scopeIds', 'cardRequestUrl'],
         },
       },
       required: ['name', 'platform'],

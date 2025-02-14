@@ -695,6 +695,13 @@ export class EventManager {
     })
     return result
   }
+
+  async enableWebSocketMode(appId: string) {
+    const result = await this.cfg.aPostRequest(`developers/v1/event/switch/${appId}`, {
+      eventMode: 4,
+    })
+    return result.data
+  }
 }
 
 interface peopleInfo {

@@ -1,11 +1,10 @@
 {
-  "name": "botops demo 3",
+  "name": "botops demo 2025",
   "desc": "somebotops deploy",
   "avatar": "https://avatars.githubusercontent.com/u/145313435?s=200&v=4",
   "help_use": "https://s1-imfile.com/",
   "platform": "feishu",
   "feishuConfig": {
-    "appId": "cli_a72442e6913a500d",
     "events": [
       "im.message.message_read_v1",
       "im.message.receive_v1"
@@ -13,6 +12,7 @@
     "encryptKey": "e-fJKrqNbSz9NqSWL5",
     "verificationToken": "v-Ohw8k6KwVynNmzXX",
     "b2cShareSuggest": true,
+    "webSocketMode": true,
     "scopeIds": [
       "21001",
       "7",
